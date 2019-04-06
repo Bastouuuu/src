@@ -2,6 +2,7 @@ package Controleur;
 
 import java.util.Scanner;
 
+
 import Modele.commun;
 
 public class ControlleurAdministrateur {

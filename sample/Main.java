@@ -1,13 +1,17 @@
 package sample;
 
 import Boundary.BoundaryRechercheCritereTexte;
+
 import Boundary.BoundaryRechercheSimilariteTexte;
+import Boundary.BoundarySauvegardeHistorique;
 import Controleur.ControlleurCommun;
 import Controleur.ControlleurIndexation;
 import Controleur.ControlleurRechercheCritereTexte;
 import Controleur.ControlleurRechercheSimilariteTexte;
+import Controleur.ControlleurSauvegardeHistorique;
 import Modele.ComparateurResultat;
 import Modele.CritereTexte;
+import Modele.Historique;
 import Modele.Polarite;
 import Modele.Resultat;
 import javafx.application.Application;
@@ -81,19 +85,36 @@ public class Main extends Application {
     private ProgressBar ProgressSimi;
 
     private Stage primaryStage;
+    
+    //Partie sauvegarde historique
+    @FXML
+    private Button ButtonSauvegarder;
+    @FXML
+    private ListView ListHisto;
+    
+    
+    
+    
 
     private ControlleurRechercheCritereTexte control = new ControlleurRechercheCritereTexte();
     private ControlleurRechercheSimilariteTexte controlSimi = new ControlleurRechercheSimilariteTexte();
+    private ControlleurSauvegardeHistorique controlSauv = new ControlleurSauvegardeHistorique();
+    private BoundarySauvegardeHistorique boundSauv = new BoundarySauvegardeHistorique(controlSauv);
     private ControlleurIndexation index = new ControlleurIndexation();
     private ControlleurCommun commun = new ControlleurCommun();
     private BoundaryRechercheCritereTexte bound = new BoundaryRechercheCritereTexte(control,index,commun);
     private BoundaryRechercheSimilariteTexte boundSimi = new BoundaryRechercheSimilariteTexte(controlSimi,index);
     private TreeSet<Resultat<String,Float>> lastresult = new TreeSet<>(new ComparateurResultat());
+    
+    private String requete="";
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        System.load("/Users/bast/Downloads/FilRougeV3/commun.dylib");
-        System.load("/Users/bast/Downloads/FilRougeV3/texte.dylib");
+    	System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/commun.dylib");
+		System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/texte.dylib");
+        System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/setup.dylib");
+		System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/son.dylib");
+		System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/image_nb.dylib");
         Parent root = FXMLLoader.load(getClass().getResource("Ariane'sThread.fxml"));
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Ariane's Thread");
@@ -251,5 +272,45 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    public void saveHisto() {
+    	if(!lastresult.isEmpty() &&(TextFieldSimi.getLength() > 0 || TextFieldMotCle.getLength() > 0 || TextFieldSon.getLength() > 0)) {
+    		if(TextFieldSimi.getLength() > 0) {
+    			//System.out.println("ici");
+    			requete = TextFieldSimi.getText(); 
+    		}
+    		else {
+    			if(TextFieldMotCle.getLength() > 0) {
+    				requete = TextFieldMotCle.getText();
+    			}
+    			else {//TextFieldSon.getLength() > 0
+    				requete = TextFieldSon.getText();
+    			}
+    		}
+    		afficheHisto();
+    		boundSauv.ajoutHistorique(requete, lastresult);
+    		
+    		
+    	}
+    }
+    
+    public void afficheHisto() {
+        ObservableList<String> list = FXCollections.observableArrayList();
+        list.add("Test affichage dans historique");
+        ListHisto.setItems(list);
+        
+        /*
+        if(lastresult.isEmpty()) {
+        list.add("Aucune recherche récente");
+        }else{
+            list.clear();
+            for (Resultat<String, Float> r : lastresult) {
+                list.add(r.toString());
+            }
+        }
+        ListResult.setItems(list);
+        */
+
     }
 }

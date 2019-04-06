@@ -31,7 +31,7 @@ public class ControlleurRechercheSimilariteImage {
 			String[] y = null;
 			for(String i : x) {
 				y = i.split("--");
-				Resultat<String,Float> tmp = new Resultat<String, Float>(y[0],Float.parseFloat(y[1].trim()));
+				Resultat<String,Float> tmp = new Resultat<String, Float>(y[0],Float.parseFloat(y[1].trim().replace(",", ".")));
 				hash.add(tmp);
 			}
 		}else {

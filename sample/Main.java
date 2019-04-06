@@ -2,6 +2,7 @@ package sample;
 
 import Boundary.BoundaryRechercheCritereTexte;
 
+
 import Boundary.BoundaryRechercheSimilariteTexte;
 import Boundary.BoundarySauvegardeHistorique;
 import Controleur.ControlleurCommun;
@@ -29,6 +30,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.TreeSet;
 
 
@@ -91,6 +93,8 @@ public class Main extends Application {
     private Button ButtonSauvegarder;
     @FXML
     private ListView ListHisto;
+    @FXML
+    private Tab TabHisto;
     
     
     
@@ -107,6 +111,8 @@ public class Main extends Application {
     private TreeSet<Resultat<String,Float>> lastresult = new TreeSet<>(new ComparateurResultat());
     
     private String requete="";
+    boolean sauvegarderPressed = false;
+    Historique historique = Historique.getInstance();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -121,6 +127,8 @@ public class Main extends Application {
         Scene s = new Scene(root,640,400);
         primaryStage.setScene(s);
         primaryStage.show();
+        
+        boundSauv.recupHisto();
     }
 
 
@@ -270,47 +278,64 @@ public class Main extends Application {
         }
     }
 
+    public void saveHisto() {
+    	boundSauv.recupHisto();
+    	sauvegarderPressed = true;
+    	System.out.println("test saveHisto");
+    	if(!TextFieldMotCle.getText().isEmpty() || !TextFieldSon.getText().isEmpty() || !TextFieldSimi.getText().isEmpty()) {
+    		if(!TextFieldMotCle.getText().isEmpty()) {
+    			requete = TextFieldMotCle.getText();
+    		}
+    		else {
+    			if(!TextFieldSon.getText().isEmpty()) {
+    				requete = TextFieldSon.getText();
+    			}
+    			else {
+    				requete = TextFieldSimi.getText();
+    			}
+    		}
+    	}
+    	boundSauv.ajoutHistorique(requete, lastresult);
+    }
+    
+    public void afficheHisto() {
+    	ObservableList<String> list = FXCollections.observableArrayList();
+    	for(Map.Entry<String, String> entry : historique.getHash().entrySet()) {
+    	    list.add(entry.getKey());
+    	    list.add(entry.getValue());
+    	}
+		if(sauvegarderPressed) {
+	    	System.out.println("test afficheHisto");
+	        if(lastresult.isEmpty()) {
+	        	list.add("");
+	        }
+	        else {
+	            for (Resultat<String, Float> r : lastresult) {
+	                list.add(r.toString());
+	            }
+	        }	        
+    	}
+		else {
+			list.add("");
+		}
+		ListHisto.setItems(list);
+		
+    	
+
+    }
+    
+    
+    
+    
+    
     public static void main(String[] args) {
         launch(args);
     }
     
-    public void saveHisto() {
-    	if(!lastresult.isEmpty() &&(TextFieldSimi.getLength() > 0 || TextFieldMotCle.getLength() > 0 || TextFieldSon.getLength() > 0)) {
-    		if(TextFieldSimi.getLength() > 0) {
-    			//System.out.println("ici");
-    			requete = TextFieldSimi.getText(); 
-    		}
-    		else {
-    			if(TextFieldMotCle.getLength() > 0) {
-    				requete = TextFieldMotCle.getText();
-    			}
-    			else {//TextFieldSon.getLength() > 0
-    				requete = TextFieldSon.getText();
-    			}
-    		}
-    		afficheHisto();
-    		boundSauv.ajoutHistorique(requete, lastresult);
-    		
-    		
-    	}
-    }
+    /* POUR TEST OMAR 
+     /Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/partie2/DATA_FIL_ROUGE_DEV/TexteTest/03-Des_chercheurs_parviennent_à_régénérer.xml
+     
+     */
     
-    public void afficheHisto() {
-        ObservableList<String> list = FXCollections.observableArrayList();
-        list.add("Test affichage dans historique");
-        ListHisto.setItems(list);
-        
-        /*
-        if(lastresult.isEmpty()) {
-        list.add("Aucune recherche récente");
-        }else{
-            list.clear();
-            for (Resultat<String, Float> r : lastresult) {
-                list.add(r.toString());
-            }
-        }
-        ListResult.setItems(list);
-        */
-
-    }
+    
 }

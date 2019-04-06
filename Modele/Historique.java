@@ -12,7 +12,7 @@ import java.util.TreeSet;
 public class Historique {
 	
 	
-	private Map<String, String> hashReqRes = new HashMap<>();
+	private HashMap<String, String> hashReqRes = new HashMap<>();
 	
 	/* Constructeur privé */
 	private Historique(){}
@@ -97,7 +97,10 @@ public class Historique {
 	public void removeUneReq(String clef) {
 		hashReqRes.remove(clef);
 	}
-
+	
+	public HashMap<String, String> getHash(){
+		return hashReqRes;
+	}
 	
 
 }

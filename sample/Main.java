@@ -92,8 +92,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        System.load("/home/elodie/FIL_ROUGE/FilRougeV3/commun.so");
-        System.load("/home/elodie/FIL_ROUGE/FilRougeV3/texte.so");
         System.load("/Users/bast/Downloads/FilRougeV3/commun.dylib");
         System.load("/Users/bast/Downloads/FilRougeV3/texte.dylib");
         System.load("/Users/bast/Downloads/FilRougeV3/image_nb.dylib");

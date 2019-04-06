@@ -49,7 +49,7 @@ public class BoundaryMenu {
 			bRechCritIm.rechercheParCritereComplexe();
 			break;
 		case 4:
-			bRechSimiImage.rechercheSimilariteImage();
+			//bRechSimiImage.rechercheSimilariteImage();
 			break;
 		case 5:
 			//bRechCritSon.rechercheCritSon();

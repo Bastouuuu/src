@@ -16,11 +16,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="Layout" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Main">
+<VBox fx:id="Layout" prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Main">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <TabPane fx:id="TabPane" prefHeight="371.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="TabPane" prefHeight="640.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab closable="false" text="RechercheCritère">
                   <content>
@@ -80,14 +80,68 @@
                               </Label>
                               <AnchorPane fx:id="AnchorParam" layoutX="23.0" layoutY="14.0" prefHeight="338.0" prefWidth="640.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Label layoutY="61.0" prefHeight="23.0" prefWidth="140.0" text="Configuration texte" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="30.0">
+                                    <Label prefWidth="175.0" text="Configuration texte" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="30.0">
                                        <font>
                                           <Font name="System Bold" size="15.0" />
                                        </font></Label>
-                                    <Label text="Nb occu min" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="80.0">
+                                    <Label text="Longueur min mot" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="60.0">
                                        <graphic>
-                                          <TextField alignment="CENTER_RIGHT" promptText="nboccu" />
+                                          <TextField fx:id="TextFieldConfigTexteLon" alignment="TOP_RIGHT" />
+                                       </graphic>
+                                    </Label>
+                                    <Label text="Nb occu min" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0">
+                                       <graphic>
+                                          <TextField fx:id="TextFieldConfigTexteOcc" alignment="CENTER_RIGHT" />
                                        </graphic></Label>
+                                    <Label text="Nb mot sauvegardés" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="140.0">
+                                       <graphic>
+                                          <TextField fx:id="TextFieldConfigTexteSave" alignment="TOP_RIGHT" />
+                                       </graphic>
+                                    </Label>
+                                    <Label prefWidth="175.0" text="Configuration Image" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="190.0">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Nb bits poids fort" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="220.0">
+                                       <graphic>
+                                          <TextField fx:id="TextFieldConfigImageBPF" alignment="CENTER_RIGHT" />
+                                       </graphic>
+                                    </Label>
+                                    <Label text="Seuil" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="260.0">
+                                       <graphic>
+                                          <TextField fx:id="TextFieldConfigImageSeuil" alignment="CENTER_RIGHT" />
+                                       </graphic>
+                                    </Label>
+                                    <Label text="Configuration Son" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="300.0">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Nb echantillons" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="330.0">
+                                       <graphic>
+                                          <TextField fx:id="TextFieldConfigSonSample" alignment="CENTER_RIGHT" />
+                                       </graphic>
+                                    </Label>
+                                    <Label text="Nb intervalle" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="370.0">
+                                       <graphic>
+                                          <TextField fx:id="TextFieldConfigSonInter" alignment="CENTER_RIGHT" />
+                                       </graphic>
+                                    </Label>
+                                    <Label text="Chemin" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="410.0">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="TextFieldConfigPath" alignment="CENTER_RIGHT" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="440.0" />
+                                    <Label text="Nouveau mdp" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="480.0">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <PasswordField fx:id="TextFieldConfigMdp" alignment="CENTER_RIGHT" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="510.0" />
+                                    <Button layoutX="172.0" layoutY="550.0" mnemonicParsing="false" text="Reset" />
+                                    <Button fx:id="ButtonConfigurer" layoutX="332.0" layoutY="550.0" mnemonicParsing="false" onMouseClicked="#configurer" prefHeight="26.0" prefWidth="93.0" text="Configurer" />
                                  </children>
                               </AnchorPane>
                            </children></AnchorPane>

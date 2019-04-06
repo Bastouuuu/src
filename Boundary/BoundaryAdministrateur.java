@@ -35,11 +35,11 @@ public class BoundaryAdministrateur {
 
 	int reponse = sc.nextInt();
 	switch(reponse) {
-	case 1 : controlAdmin.edit_settings_texte(); break;
-	case 2 : controlAdmin.edit_settings_image(); break;
-	case 3 : controlAdmin.edit_settings_son(); break;
-	case 4 : controlAdmin.edit_settings_path(); break;
-	case 5 : controlAdmin.edit_setting_password(); break;
+	case 1 : controlAdmin.edit_settings_texte(3, 3, 100); break;
+	case 2 : controlAdmin.edit_settings_image(2, 75); break;
+	case 3 : controlAdmin.edit_settings_son(2048, 35); break;
+	case 4 : controlAdmin.edit_settings_path("cheminblabla"); break;
+	case 5 : controlAdmin.edit_setting_password("mdp"); break;
 	default : System.out.println("Choix non reconnu. Fermeture."); System.exit(2);
 	}
 	sc.close();

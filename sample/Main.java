@@ -57,6 +57,7 @@ public class Main extends Application {
     private RadioButton RadioSon;
     @FXML
     private TextField TextFieldSimi;
+    //Partie admin
     @FXML
     private Tab PaneAdministrator;
     @FXML
@@ -67,6 +68,7 @@ public class Main extends Application {
     private TabPane TabPane;
     @FXML
     private TextField TextFieldLogin;
+    //Partie result
     @FXML
     private ListView ListResult;
     @FXML
@@ -79,6 +81,28 @@ public class Main extends Application {
     private ProgressBar ProgressSimi;
 
     private Stage primaryStage;
+   
+    //Partie config
+    @FXML
+    private TextField TextFieldConfigTexteLon;
+    @FXML
+    private TextField TextFieldConfigTexteOcc;
+    @FXML
+    private TextField TextFieldConfigTexteSave;
+    @FXML
+    private TextField TextFieldConfigImageBPF;
+    @FXML
+    private TextField TextFieldConfigImageSeuil;
+    @FXML
+    private TextField TextFieldConfigSonSample;
+    @FXML
+    private TextField TextFieldConfigSonInter;
+    @FXML
+    private TextField TextFieldConfigPath;
+    @FXML
+    private TextField TextFieldConfigMdp;
+    @FXML 
+    private Button ButtonConfigurer;
 
     private ControlleurRechercheCritereTexte control = new ControlleurRechercheCritereTexte();
     private ControlleurRechercheSimilariteTexte controlSimi = new ControlleurRechercheSimilariteTexte();
@@ -89,16 +113,17 @@ public class Main extends Application {
     private TreeSet<Resultat<String,Float>> lastresult = new TreeSet<>(new ComparateurResultat());
     private ControlleurRechercheSimilariteImage controlSimiImage = new ControlleurRechercheSimilariteImage();
     private BoundaryRechercheSimilariteImage boundSimiImage = new BoundaryRechercheSimilariteImage(controlSimiImage,index);
+    private ControlleurAdministrateur controlAdmin = new ControlleurAdministrateur();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        System.load("/Users/bast/Downloads/FilRougeV3/commun.dylib");
+    	System.load("/Users/bast/Downloads/FilRougeV3/commun.dylib");
         System.load("/Users/bast/Downloads/FilRougeV3/texte.dylib");
         System.load("/Users/bast/Downloads/FilRougeV3/image_nb.dylib");
         Parent root = FXMLLoader.load(getClass().getResource("Ariane'sThread.fxml"));
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Ariane's Thread");
-        Scene s = new Scene(root,640,400);
+        Scene s = new Scene(root,640,640);
         primaryStage.setScene(s);
         primaryStage.show();
     }
@@ -152,7 +177,7 @@ public class Main extends Application {
     }
 
     public void login(){
-        if (TextFieldLogin.getText().equals("Password")) {
+        if (TextFieldLogin.getText().equals(controlAdmin.get_password())) {
             TextFieldLogin.setVisible(false);
             AnchorParam.setVisible(true);
         }else{
@@ -270,6 +295,36 @@ public class Main extends Application {
                 ButtonRechercherSimi.setDisable(false);
             }).start();
         }
+    }
+    
+    public void configurer() {
+    	String textLon = TextFieldConfigTexteLon.getText();
+    	String textOcc = TextFieldConfigTexteOcc.getText();
+    	String textSave = TextFieldConfigTexteSave.getText();
+    	String imBPF = TextFieldConfigImageBPF.getText();
+    	String imSeuil = TextFieldConfigImageSeuil.getText();
+    	String sonSample = TextFieldConfigSonSample.getText();
+    	String sonInter = TextFieldConfigSonInter.getText();
+    	String path = TextFieldConfigPath.getText();
+    	String newMdp = TextFieldConfigMdp.getText();
+    	if(textLon.length() != 0 && textOcc.length() != 0 && textSave.length() != 0) {
+    		controlAdmin.edit_settings_texte(Integer.parseInt(textLon), Integer.parseInt(textOcc), Integer.parseInt(textSave));
+    	} 
+    	if(imBPF.length() != 0 && imSeuil.length() != 0) {
+    		controlAdmin.edit_settings_image(Integer.parseInt(imBPF), Integer.parseInt(imSeuil));
+    	}
+    	if(sonSample.length() != 0 && sonInter.length() != 0) {
+    		controlAdmin.edit_settings_son(Integer.parseInt(sonSample), Integer.parseInt(sonInter));
+    	}
+    	if(path.length() != 0) {
+    		controlAdmin.edit_settings_path(path);
+    	}
+    	if(newMdp.length() != 0) {
+    		controlAdmin.edit_setting_password(newMdp);
+    	}
+    	/*else {
+    		System.out.println("Veuillez remplir au moins tous les champs d'un type de configuration.");
+    	}*/
     }
 
     public static void main(String[] args) {

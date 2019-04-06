@@ -1,11 +1,9 @@
 package sample;
 
 import Boundary.BoundaryRechercheCritereTexte;
+import Boundary.BoundaryRechercheSimilariteImage;
 import Boundary.BoundaryRechercheSimilariteTexte;
-import Controleur.ControlleurCommun;
-import Controleur.ControlleurIndexation;
-import Controleur.ControlleurRechercheCritereTexte;
-import Controleur.ControlleurRechercheSimilariteTexte;
+import Controleur.*;
 import Modele.ComparateurResultat;
 import Modele.CritereTexte;
 import Modele.Polarite;
@@ -89,11 +87,14 @@ public class Main extends Application {
     private BoundaryRechercheCritereTexte bound = new BoundaryRechercheCritereTexte(control,index,commun);
     private BoundaryRechercheSimilariteTexte boundSimi = new BoundaryRechercheSimilariteTexte(controlSimi,index);
     private TreeSet<Resultat<String,Float>> lastresult = new TreeSet<>(new ComparateurResultat());
+    private ControlleurRechercheSimilariteImage controlSimiImage = new ControlleurRechercheSimilariteImage();
+    private BoundaryRechercheSimilariteImage boundSimiImage = new BoundaryRechercheSimilariteImage(controlSimiImage,index);
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         System.load("/Users/bast/Downloads/FilRougeV3/commun.dylib");
         System.load("/Users/bast/Downloads/FilRougeV3/texte.dylib");
+        System.load("/Users/bast/Downloads/FilRougeV3/image_nb.dylib");
         Parent root = FXMLLoader.load(getClass().getResource("Ariane'sThread.fxml"));
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Ariane's Thread");
@@ -123,7 +124,7 @@ public class Main extends Application {
             );
         }else if(GroupRadio.getSelectedToggle() == RadioImage){
             browser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("Fichier image", "*.jpg")
+                    new FileChooser.ExtensionFilter("Fichier image", "*.jpg", "*.bmp")
             );
         }else{
             browser.getExtensionFilters().addAll(
@@ -231,6 +232,28 @@ public class Main extends Application {
                 ProgressSimi.setVisible(true);
                 ProgressSimi.setProgress(0.6);
                 TreeSet<Resultat<String, Float>> tmp = boundSimi.rechercheSimilariteTexte(TextFieldSimi.getText());
+                lastresult.clear();
+                if (!tmp.isEmpty()) {
+                    lastresult.addAll(tmp);
+                } else {
+                    lastresult.add(new Resultat<String, Float>("Aucun document trouvé !", 0F));
+                }
+                ProgressSimi.setProgress(1.0);
+                try{
+                    Thread.sleep(500);
+                }catch(InterruptedException e){
+                    System.out.println(e);
+                }
+                ProgressSimi.setVisible(false);
+                ButtonRechercherSimi.setDisable(false);
+            }).start();
+        }
+        if(GroupRadio.getSelectedToggle() == RadioImage && TextFieldSimi.getLength() > 0){
+            new Thread(() -> {
+                ButtonRechercherSimi.setDisable(true);
+                ProgressSimi.setVisible(true);
+                ProgressSimi.setProgress(0.6);
+                TreeSet<Resultat<String, Float>> tmp = boundSimiImage.rechercheSimilariteImage(TextFieldSimi.getText());
                 lastresult.clear();
                 if (!tmp.isEmpty()) {
                     lastresult.addAll(tmp);

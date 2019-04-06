@@ -18,62 +18,51 @@ public class BoundaryRechercheSimilariteImage {
 		this.controlIndexation = ci;
 	}
 	
-	public void rechercheSimilariteImage() {
+	public TreeSet<Resultat<String,Float>> rechercheSimilariteImage(String s) {
 		ThreadIndexation t = new ThreadIndexation("Image",controlIndexation);
 		t.start();
 		int pathvalide = 0;//variable pour savoir si le fichier existe
 		int verifNbOk = 0 ; //variable permettant de tester si le fichier entré est bien au format bmp
 		int verifCouleurOk = 0 ; //variable permettant de tester si le fichier entré est bien au format jpg
-		
-		String nomFichier ="";
-		
+
 		TreeSet<Resultat<String,Float>> hash = new TreeSet<Resultat<String,Float>>() ;
 		
-		System.out.println("Entrez le nom de l'image que vous souhaitez rechercher.\n" + 
+	/*	System.out.println("Entrez le nom de l'image que vous souhaitez rechercher.\n" +
 				"Pour un fichier en noir et blanc, entrez son nom.bmp\n" +
 				"Pour un fichier en couleurs, entrez son nom.jpg\n" + 
-				"Précisez le chemin complet s'il n'est pas dans le dossier courant.");
+				"Précisez le chemin complet s'il n'est pas dans le dossier courant.");*/
 		
 		while(verifNbOk == 0 && verifCouleurOk == 0) {
-			Scanner s = new Scanner(System.in);
+			//Scanner s = new Scanner(System.in);
 			while(pathvalide == 0) {
-				nomFichier = s.nextLine();
-				pathvalide = control.fileExists(nomFichier) ;
+				//nomFichier = s.nextLine();
+				pathvalide = control.fileExists(s) ;
 				if(pathvalide == 0) {
 					System.out.println("Le document est introuvable ! Réessayez.");
 				}
 				
 			}
-			verifNbOk = control.verif_format(nomFichier);
-			verifCouleurOk = control.verif_format_rgb(nomFichier);
-			
+			verifNbOk = control.verif_format(s);
+			verifCouleurOk = control.verif_format_rgb(s);
+
 			if(verifNbOk == 0 && verifCouleurOk == 0) {
 				System.out.println("Le format n'est pas respecté ! Réessayez.");
-				nomFichier = s.nextLine();
+			//	nomFichier = s.nextLine();
 			}
 			else {
 				if(verifNbOk == 1) {
 					System.out.println("Requête noir et blanc");
 					while(t.getState() != Thread.State.TERMINATED) {}
-					hash = control.rechercheSimilariteImageNb(nomFichier) ; 
+					hash = control.rechercheSimilariteImageNb(s) ;
 				}
 				else {
 					System.out.println("Requête couleurs");
 					while(t.getState() != Thread.State.TERMINATED) {}
-					hash = control.rechercheSimilariteImageCouleur(nomFichier) ; 
+					hash = control.rechercheSimilariteImageCouleur(s) ;
 				}
 			}
 		}
-		if(hash.isEmpty()) {
-			System.out.println("Aucun document ne correspond au document soumis.");
-		}
-		else {
-			System.out.println("Documents similaires trouvés :");
-			for(Resultat<String,Float> r : hash ) {
-				System.out.println("Fichier : " + r.getNom() + " match: " + r.getNombre() +"%");
-			}
-		}
+		return hash;
+	}
 		
 	}
-
-}

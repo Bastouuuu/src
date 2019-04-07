@@ -12,11 +12,13 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="Layout" prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Main">
+<VBox fx:id="Layout" prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Main">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
@@ -26,16 +28,21 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextField id="TextFieldMotCle" fx:id="TextFieldMotCle" layoutX="193.0" layoutY="36.0" onKeyReleased="#disableFieldsText" prefHeight="27.0" prefWidth="305.0" promptText="Mots-clés" />
-                              <ColorPicker id="ColorPickerImage" fx:id="ColorPickerImage" layoutX="193.0" layoutY="91.0" pickOnBounds="false" promptText="Palette couleurs" />
-                              <Label layoutX="46.0" layoutY="96.0" text="Palette de couleurs :" />
-                              <Label layoutX="102.0" layoutY="41.0" text="Mots-clés :" />
-                              <Label layoutX="140.0" layoutY="169.0" text="Son :" />
-                              <TextField id="TextFieldSon" fx:id="TextFieldSon" editable="false" layoutX="193.0" layoutY="164.0" prefHeight="27.0" prefWidth="304.0" promptText="Fichier son..." />
-                              <Button id="ButtonParcourir" fx:id="ButtonParcourir" layoutX="516.0" layoutY="164.0" mnemonicParsing="false" onMouseClicked="#parcourirSon" text="Parcourir" />
-                              <Button id="ButtonRechercher" fx:id="ButtonRechercher" layoutX="332.0" layoutY="297.0" mnemonicParsing="false" onMouseClicked="#rechercher" text="Rechercher" />
-                              <Button fx:id="ButtonReset" layoutX="172.0" layoutY="297.0" mnemonicParsing="false" text="Reset" />
+                              <TextField id="TextFieldMotCle" fx:id="TextFieldMotCle" layoutX="193.0" layoutY="165.0" onKeyReleased="#disableFieldsText" prefHeight="27.0" prefWidth="305.0" promptText="Mots-clés" />
+                              <ColorPicker id="ColorPickerImage" fx:id="ColorPickerImage" layoutX="193.0" layoutY="220.0" pickOnBounds="false" promptText="Palette couleurs" />
+                              <Label layoutX="46.0" layoutY="225.0" text="Palette de couleurs :" />
+                              <Label layoutX="102.0" layoutY="170.0" text="Mots-clés :" />
+                              <Label layoutX="140.0" layoutY="298.0" text="Son :" />
+                              <TextField id="TextFieldSon" fx:id="TextFieldSon" editable="false" layoutX="193.0" layoutY="293.0" prefHeight="27.0" prefWidth="304.0" promptText="Fichier son..." />
+                              <Button id="ButtonParcourir" fx:id="ButtonParcourir" layoutX="516.0" layoutY="293.0" mnemonicParsing="false" onMouseClicked="#parcourirSon" text="Parcourir" />
+                              <Button id="ButtonRechercher" fx:id="ButtonRechercher" layoutX="332.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#rechercher" text="Rechercher" />
+                              <Button fx:id="ButtonReset" layoutX="172.0" layoutY="426.0" mnemonicParsing="false" text="Reset" />
                               <ProgressBar fx:id="ProgressIndex" layoutX="232.0" layoutY="131.0" prefWidth="200.0" progress="0.0" visible="false" />
+                              <ImageView fitHeight="191.0" fitWidth="241.0" layoutX="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@56716147_444951749577677_8080154912068993024_n.png" />
+                                 </image>
+                              </ImageView>
                            </children>
                         </AnchorPane>
                   </content>

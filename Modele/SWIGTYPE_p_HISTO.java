@@ -7,7 +7,6 @@ package Modele;
  * the SWIG interface file instead.
  * ----------------------------------------------------------------------------- */
 
-package Modele;
 public class SWIGTYPE_p_HISTO {
   private transient long swigCPtr;
 

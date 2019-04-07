@@ -239,47 +239,49 @@ public class Main extends Application {
 
     public void rechercher(){
       if(TextFieldMotCle.getLength() > 0) {
-          new Thread(() -> {
-              ButtonRechercher.setDisable(true);
-              ProgressIndex.setVisible(true);
-              ArrayList<CritereTexte> list = new ArrayList<>();
-              String s = TextFieldMotCle.getText();
-              ProgressIndex.setProgress(0.1);
-              String[] ss = s.split(",");
-              ProgressIndex.setProgress(0.3);
-              if(ss.length > 1){
-                  for(int i= 0;i <ss.length;i++){
-                      if(ss[i].charAt(0) == '+'){
-                          list.add(new CritereTexte(Polarite.PRESENT,ss[i].substring(1).trim()));
-                      }else if(ss[i].charAt(0) == '-'){
-                          list.add(new CritereTexte(Polarite.ABSENT,ss[i].substring(1).trim()));
+          if(TextFieldMotCle.getText().charAt(0) == '+' || TextFieldMotCle.getText().charAt(0) == '-') {
+              new Thread(() -> {
+                  ButtonRechercher.setDisable(true);
+                  ProgressIndex.setVisible(true);
+                  ArrayList<CritereTexte> list = new ArrayList<>();
+                  String s = TextFieldMotCle.getText();
+                  ProgressIndex.setProgress(0.1);
+                  String[] ss = s.split(",");
+                  ProgressIndex.setProgress(0.3);
+                  if (ss.length > 1) {
+                      for (int i = 0; i < ss.length; i++) {
+                          if (ss[i].charAt(0) == '+') {
+                              list.add(new CritereTexte(Polarite.PRESENT, ss[i].substring(1).trim()));
+                          } else if (ss[i].charAt(0) == '-') {
+                              list.add(new CritereTexte(Polarite.ABSENT, ss[i].substring(1).trim()));
+                          }
+                      }
+                      ProgressIndex.setProgress(0.6);
+                  } else {
+                      if (ss[0].charAt(0) == '+') {
+                          list.add(new CritereTexte(Polarite.PRESENT, ss[0].substring(1).trim()));
+                      } else if (ss[0].charAt(0) == '-') {
+                          list.add(new CritereTexte(Polarite.ABSENT, ss[0].substring(1).trim()));
                       }
                   }
-                  ProgressIndex.setProgress(0.6);
-              }else{
-                  if(ss[0].charAt(0) == '+'){
-                      list.add(new CritereTexte(Polarite.PRESENT,ss[0].substring(1).trim()));
-                  }else if(ss[0].charAt(0) == '-'){
-                      list.add(new CritereTexte(Polarite.ABSENT,ss[0].substring(1).trim()));
+                  ProgressIndex.setProgress(0.7);
+                  lastresult.clear();
+                  TreeSet<Resultat<String, Float>> tmp = bound.rechercheParCritereComplexe(list);
+                  ProgressIndex.setProgress(1.0);
+                  try {
+                      Thread.sleep(500);
+                  } catch (InterruptedException e) {
+                      System.out.println(e);
                   }
-              }
-              ProgressIndex.setProgress(0.7);
-              lastresult.clear();
-              TreeSet<Resultat<String,Float>>  tmp = bound.rechercheParCritereComplexe(list);
-              ProgressIndex.setProgress(1.0);
-              try{
-                  Thread.sleep(500);
-              }catch(InterruptedException e){
-                  System.out.println(e);
-              }
-              if(tmp == null){
-                  lastresult.add(new Resultat<String,Float>("Aucun document trouvé !", 0F));
-              }else {
-                  lastresult.addAll(tmp);
-              }
-              ProgressIndex.setVisible(false);
-              ButtonRechercher.setDisable(false);
-          }).start();
+                  if (tmp == null) {
+                      lastresult.add(new Resultat<String, Float>("Aucun document trouvé !", 0F));
+                  } else {
+                      lastresult.addAll(tmp);
+                  }
+                  ProgressIndex.setVisible(false);
+                  ButtonRechercher.setDisable(false);
+              }).start();
+          }
       }
     }
 

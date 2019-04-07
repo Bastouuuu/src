@@ -281,7 +281,7 @@ public class Main extends Application {
     public void saveHisto() {
     	boundSauv.recupHisto();
     	sauvegarderPressed = true;
-    	System.out.println("test saveHisto");
+
     	if(!TextFieldMotCle.getText().isEmpty() || !TextFieldSon.getText().isEmpty() || !TextFieldSimi.getText().isEmpty()) {
     		if(!TextFieldMotCle.getText().isEmpty()) {
     			requete = TextFieldMotCle.getText();
@@ -295,7 +295,12 @@ public class Main extends Application {
     			}
     		}
     	}
-    	boundSauv.ajoutHistorique(requete, lastresult);
+    	if(!lastresult.contains(new Resultat<String, Float>("Aucun document trouvé !", 0F))) {
+    		System.out.println("condition nulle");
+    		boundSauv.ajoutHistorique(requete, lastresult);
+    	}
+
+    	
     }
     
     public void afficheHisto() {
@@ -310,10 +315,15 @@ public class Main extends Application {
 	        	list.add("");
 	        }
 	        else {
-	            for (Resultat<String, Float> r : lastresult) {
-	                list.add(r.toString());
-	            }
-	        }	        
+	        	if(!lastresult.contains(new Resultat<String, Float>("Aucun document trouvé !", 0F))) {
+		            for(Resultat<String, Float> r : lastresult) {
+		            	//if(!r.equals(new Resultat<String, Float>("Aucun document trouvé !", 0F))) {
+		            		list.add(r.toString());
+	            	//}
+	            	}
+	        	}
+	        }
+	        sauvegarderPressed = false;
     	}
 		else {
 			list.add("");

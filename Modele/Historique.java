@@ -1,13 +1,17 @@
 package Modele;
 
 import java.io.BufferedReader;
+
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
+import java.io.File;
 
 public class Historique {
 	
@@ -64,6 +68,16 @@ public class Historique {
 
 	    String line="";
 	    BufferedReader reader;
+	    
+	    File file = new File("historique.txt");
+	    try {
+			boolean b = file.createNewFile();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	    
+	    
 		try {
 			reader = new BufferedReader(new FileReader("historique.txt"));
 			try {
@@ -85,13 +99,29 @@ public class Historique {
 				e.printStackTrace();
 			}
 
+			
+			
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		//System.out.println(hashReqRes.toString());
 	    
+	}
+	
+	public void removeHisto() {
+		hashReqRes.clear();
+		try {
+			PrintWriter writer = new PrintWriter("historique.txt");
+			writer.print("");
+			writer.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void removeUneReq(String clef) {

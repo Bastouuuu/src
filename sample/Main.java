@@ -4,8 +4,17 @@ import Boundary.BoundaryRechercheCritereTexte;
 import Boundary.BoundaryRechercheSimilariteImage;
 import Boundary.BoundaryRechercheSimilariteTexte;
 import Controleur.*;
+
+
+import Boundary.BoundarySauvegardeHistorique;
+import Controleur.ControlleurCommun;
+import Controleur.ControlleurIndexation;
+import Controleur.ControlleurRechercheCritereTexte;
+import Controleur.ControlleurRechercheSimilariteTexte;
+import Controleur.ControlleurSauvegardeHistorique;
 import Modele.ComparateurResultat;
 import Modele.CritereTexte;
+import Modele.Historique;
 import Modele.Polarite;
 import Modele.Resultat;
 import javafx.application.Application;
@@ -23,6 +32,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.TreeSet;
 
 
@@ -103,29 +113,52 @@ public class Main extends Application {
     private TextField TextFieldConfigMdp;
     @FXML 
     private Button ButtonConfigurer;
+    
+    //Partie sauvegarde historique
+    @FXML
+    private Button ButtonSauvegarder;
+    @FXML
+    private ListView ListHisto;
+    @FXML
+    private Tab TabHisto;
+    
+
 
     private ControlleurRechercheCritereTexte control = new ControlleurRechercheCritereTexte();
     private ControlleurRechercheSimilariteTexte controlSimi = new ControlleurRechercheSimilariteTexte();
+    private ControlleurSauvegardeHistorique controlSauv = new ControlleurSauvegardeHistorique();
+    private BoundarySauvegardeHistorique boundSauv = new BoundarySauvegardeHistorique(controlSauv);
     private ControlleurIndexation index = new ControlleurIndexation();
     private ControlleurCommun commun = new ControlleurCommun();
     private BoundaryRechercheCritereTexte bound = new BoundaryRechercheCritereTexte(control,index,commun);
     private BoundaryRechercheSimilariteTexte boundSimi = new BoundaryRechercheSimilariteTexte(controlSimi,index);
     private TreeSet<Resultat<String,Float>> lastresult = new TreeSet<>(new ComparateurResultat());
+
     private ControlleurRechercheSimilariteImage controlSimiImage = new ControlleurRechercheSimilariteImage();
     private BoundaryRechercheSimilariteImage boundSimiImage = new BoundaryRechercheSimilariteImage(controlSimiImage,index);
     private ControlleurAdministrateur controlAdmin = new ControlleurAdministrateur();
+
+    
+    private String requete="";
+    boolean sauvegarderPressed = false;
+    Historique historique = Historique.getInstance();
+
 
     @Override
     public void start(Stage primaryStage) throws Exception{
     	System.load("/Users/bast/Downloads/FilRougeV3/commun.dylib");
         System.load("/Users/bast/Downloads/FilRougeV3/texte.dylib");
         System.load("/Users/bast/Downloads/FilRougeV3/image_nb.dylib");
+        System.load("/Users/bast/Downloads/FilRougeV3/setup.dylib");
+		System.load("/Users/bast/Downloads/FilRougeV3/son.dylib");
         Parent root = FXMLLoader.load(getClass().getResource("Ariane'sThread.fxml"));
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Ariane's Thread");
         Scene s = new Scene(root,640,640);
         primaryStage.setScene(s);
         primaryStage.show();
+        
+        boundSauv.recupHisto();
     }
 
 
@@ -327,7 +360,74 @@ public class Main extends Application {
     	}*/
     }
 
+    public void saveHisto() {
+    	boundSauv.recupHisto();
+    	sauvegarderPressed = true;
+
+    	if(!TextFieldMotCle.getText().isEmpty() || !TextFieldSon.getText().isEmpty() || !TextFieldSimi.getText().isEmpty()) {
+    		if(!TextFieldMotCle.getText().isEmpty()) {
+    			requete = TextFieldMotCle.getText();
+    		}
+    		else {
+    			if(!TextFieldSon.getText().isEmpty()) {
+    				requete = TextFieldSon.getText();
+    			}
+    			else {
+    				requete = TextFieldSimi.getText();
+    			}
+    		}
+    	}
+    	if(!lastresult.contains(new Resultat<String, Float>("Aucun document trouvé !", 0F))) {
+    		System.out.println("condition nulle");
+    		boundSauv.ajoutHistorique(requete, lastresult);
+    	}
+
+    	
+    }
+    
+    public void afficheHisto() {
+    	ObservableList<String> list = FXCollections.observableArrayList();
+    	for(Map.Entry<String, String> entry : historique.getHash().entrySet()) {
+    	    list.add(entry.getKey());
+    	    list.add(entry.getValue());
+    	}
+		if(sauvegarderPressed) {
+	    	System.out.println("test afficheHisto");
+	        if(lastresult.isEmpty()) {
+	        	list.add("");
+	        }
+	        else {
+	        	if(!lastresult.contains(new Resultat<String, Float>("Aucun document trouvé !", 0F))) {
+		            for(Resultat<String, Float> r : lastresult) {
+		            	//if(!r.equals(new Resultat<String, Float>("Aucun document trouvé !", 0F))) {
+		            		list.add(r.toString());
+	            	//}
+	            	}
+	        	}
+	        }
+	        sauvegarderPressed = false;
+    	}
+		else {
+			list.add("");
+		}
+		ListHisto.setItems(list);
+		
+    	
+
+    }
+    
+    
+    
+    
+    
     public static void main(String[] args) {
         launch(args);
     }
+    
+    /* POUR TEST OMAR 
+     /Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/partie2/DATA_FIL_ROUGE_DEV/TexteTest/03-Des_chercheurs_parviennent_à_régénérer.xml
+     
+     */
+    
+    
 }

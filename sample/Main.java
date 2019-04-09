@@ -121,6 +121,10 @@ public class Main extends Application {
     private ListView ListHisto;
     @FXML
     private Tab TabHisto;
+    @FXML
+    private DialogPane ErrorCritere;
+    @FXML
+    private AnchorPane TextError;
     
 
 
@@ -281,9 +285,21 @@ public class Main extends Application {
                   ProgressIndex.setVisible(false);
                   ButtonRechercher.setDisable(false);
               }).start();
-          }
+          }else{
+
+                  Label x = new Label("Le formatage de la recherche est incorrect.\n La saisie doit être de la forme suivante :\n " +
+                          "Polarité (+ ou -) Mot\n Plusieurs critères peuvent être saisis, séparés d'une virgule.\n\n\n" +
+                          "Cliquez n'importe où dans la fenêtre pour la fermer.");
+                  TextError.getChildren().add(x);
+                  ErrorCritere.setVisible(true);
+                  ErrorCritere.setExpandableContent(null);
       }
     }
+    }
+
+    public void closeDialog(){
+          ErrorCritere.setVisible(false);
+        }
 
     public void rechercherSimi(){
         if(GroupRadio.getSelectedToggle() == RadioTexte && TextFieldSimi.getLength() > 0){

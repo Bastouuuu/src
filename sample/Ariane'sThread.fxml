@@ -12,30 +12,37 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="Layout" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Main">
+<VBox fx:id="Layout" prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Main">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <TabPane fx:id="TabPane" prefHeight="371.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="TabPane" prefHeight="640.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab closable="false" text="RechercheCritère">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextField id="TextFieldMotCle" fx:id="TextFieldMotCle" layoutX="193.0" layoutY="36.0" onKeyReleased="#disableFieldsText" prefHeight="27.0" prefWidth="305.0" promptText="Mots-clés" />
-                              <ColorPicker id="ColorPickerImage" fx:id="ColorPickerImage" layoutX="193.0" layoutY="91.0" pickOnBounds="false" promptText="Palette couleurs" />
-                              <Label layoutX="46.0" layoutY="96.0" text="Palette de couleurs :" />
-                              <Label layoutX="102.0" layoutY="41.0" text="Mots-clés :" />
-                              <Label layoutX="140.0" layoutY="169.0" text="Son :" />
-                              <TextField id="TextFieldSon" fx:id="TextFieldSon" editable="false" layoutX="193.0" layoutY="164.0" prefHeight="27.0" prefWidth="304.0" promptText="Fichier son..." />
-                              <Button id="ButtonParcourir" fx:id="ButtonParcourir" layoutX="516.0" layoutY="164.0" mnemonicParsing="false" onMouseClicked="#parcourirSon" text="Parcourir" />
-                              <Button id="ButtonRechercher" fx:id="ButtonRechercher" layoutX="332.0" layoutY="297.0" mnemonicParsing="false" onMouseClicked="#rechercher" text="Rechercher" />
-                              <Button fx:id="ButtonReset" layoutX="172.0" layoutY="297.0" mnemonicParsing="false" text="Reset" />
+                              <TextField id="TextFieldMotCle" fx:id="TextFieldMotCle" layoutX="193.0" layoutY="165.0" onKeyReleased="#disableFieldsText" prefHeight="27.0" prefWidth="305.0" promptText="Mots-clés" />
+                              <ColorPicker id="ColorPickerImage" fx:id="ColorPickerImage" layoutX="193.0" layoutY="220.0" pickOnBounds="false" promptText="Palette couleurs" />
+                              <Label layoutX="46.0" layoutY="225.0" text="Palette de couleurs :" />
+                              <Label layoutX="102.0" layoutY="170.0" text="Mots-clés :" />
+                              <Label layoutX="140.0" layoutY="298.0" text="Son :" />
+                              <TextField id="TextFieldSon" fx:id="TextFieldSon" editable="false" layoutX="193.0" layoutY="293.0" prefHeight="27.0" prefWidth="304.0" promptText="Fichier son..." />
+                              <Button id="ButtonParcourir" fx:id="ButtonParcourir" layoutX="516.0" layoutY="293.0" mnemonicParsing="false" onMouseClicked="#parcourirSon" text="Parcourir" />
+                              <Button id="ButtonRechercher" fx:id="ButtonRechercher" layoutX="332.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#rechercher" text="Rechercher" />
+                              <Button fx:id="ButtonReset" layoutX="172.0" layoutY="426.0" mnemonicParsing="false" text="Reset" />
                               <ProgressBar fx:id="ProgressIndex" layoutX="232.0" layoutY="131.0" prefWidth="200.0" progress="0.0" visible="false" />
+                              <ImageView fitHeight="191.0" fitWidth="241.0" layoutX="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@56716147_444951749577677_8080154912068993024_n.png" />
+                                 </image>
+                              </ImageView>
                            </children>
                         </AnchorPane>
                   </content>
@@ -80,20 +87,74 @@
                               </Label>
                               <AnchorPane fx:id="AnchorParam" layoutX="23.0" layoutY="14.0" prefHeight="338.0" prefWidth="640.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Label layoutY="61.0" prefHeight="23.0" prefWidth="140.0" text="Configuration texte" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="30.0">
+                                    <Label prefWidth="175.0" text="Configuration texte" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="30.0">
                                        <font>
                                           <Font name="System Bold" size="15.0" />
                                        </font></Label>
-                                    <Label text="Nb occu min" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="80.0">
+                                    <Label text="Longueur min mot" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="60.0">
                                        <graphic>
-                                          <TextField alignment="CENTER_RIGHT" promptText="nboccu" />
+                                          <TextField fx:id="TextFieldConfigTexteLon" alignment="TOP_RIGHT" />
+                                       </graphic>
+                                    </Label>
+                                    <Label text="Nb occu min" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0">
+                                       <graphic>
+                                          <TextField fx:id="TextFieldConfigTexteOcc" alignment="CENTER_RIGHT" />
                                        </graphic></Label>
+                                    <Label text="Nb mot sauvegardés" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="140.0">
+                                       <graphic>
+                                          <TextField fx:id="TextFieldConfigTexteSave" alignment="TOP_RIGHT" />
+                                       </graphic>
+                                    </Label>
+                                    <Label prefWidth="175.0" text="Configuration Image" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="190.0">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Nb bits poids fort" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="220.0">
+                                       <graphic>
+                                          <TextField fx:id="TextFieldConfigImageBPF" alignment="CENTER_RIGHT" />
+                                       </graphic>
+                                    </Label>
+                                    <Label text="Seuil" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="260.0">
+                                       <graphic>
+                                          <TextField fx:id="TextFieldConfigImageSeuil" alignment="CENTER_RIGHT" />
+                                       </graphic>
+                                    </Label>
+                                    <Label text="Configuration Son" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="300.0">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Nb echantillons" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="330.0">
+                                       <graphic>
+                                          <TextField fx:id="TextFieldConfigSonSample" alignment="CENTER_RIGHT" />
+                                       </graphic>
+                                    </Label>
+                                    <Label text="Nb intervalle" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="370.0">
+                                       <graphic>
+                                          <TextField fx:id="TextFieldConfigSonInter" alignment="CENTER_RIGHT" />
+                                       </graphic>
+                                    </Label>
+                                    <Label text="Chemin" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="410.0">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="TextFieldConfigPath" alignment="CENTER_RIGHT" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="440.0" />
+                                    <Label text="Nouveau mdp" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="480.0">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <PasswordField fx:id="TextFieldConfigMdp" alignment="CENTER_RIGHT" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="510.0" />
+                                    <Button layoutX="172.0" layoutY="550.0" mnemonicParsing="false" text="Reset" />
+                                    <Button fx:id="ButtonConfigurer" layoutX="332.0" layoutY="550.0" mnemonicParsing="false" onMouseClicked="#configurer" prefHeight="26.0" prefWidth="93.0" text="Configurer" />
                                  </children>
                               </AnchorPane>
                            </children></AnchorPane>
                      </content>
                   </Tab>
-                  <Tab fx:id="TabHisto" onSelectionChanged="#afficheHisto" text="Historique">
+                  <Tab closable="false" text="Historique">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -117,7 +178,6 @@
                                  </font>
                               </Label>
                               <ListView fx:id="ListResult" layoutX="30.0" layoutY="84.0" onContextMenuRequested="#afficheResult" prefHeight="238.0" prefWidth="581.0" />
-                              <Button fx:id="ButtonSauvegarder" layoutX="515.0" layoutY="26.0" mnemonicParsing="false" onMousePressed="#saveHisto" text="Sauvegarder" />
                            </children></AnchorPane>
                     </content>
                   </Tab>

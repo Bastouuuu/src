@@ -64,7 +64,6 @@ public class Historique {
 	}
 	
 	public void recupHisto() {
-		hashReqRes.clear();
 
 	    String line="";
 	    BufferedReader reader;

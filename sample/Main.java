@@ -146,7 +146,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-<//<<<<<< HEAD
+//<<<<<< HEAD
     	//pour git
     	/*System.load("/Users/bast/Downloads/FilRougeV3/commun.dylib");
 		System.load("/Users/bast/Downloads/FilRougeV3/texte.dylib");
@@ -400,7 +400,7 @@ public class Main extends Application {
     		}
     	}
     	if(!lastresult.contains(new Resultat<String, Float>("Aucun document trouvé !", 0F))) {
-    		System.out.println("condition nulle");
+    		//System.out.println("condition nulle");
     		boundSauv.ajoutHistorique(requete, lastresult);
     	}
 
@@ -440,10 +440,6 @@ public class Main extends Application {
     	
 
     }
-    
-    
-    
-    
     
     public static void main(String[] args) {
         launch(args);

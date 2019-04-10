@@ -219,7 +219,7 @@ public class Main extends Application {
         }
     }
 
-    public void parcourirSon(){
+    public void parcourirSon() {
         FileChooser browser = new FileChooser();
         browser.setTitle("Ouvrir un document...");
         browser.getExtensionFilters().addAll(

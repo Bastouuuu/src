@@ -150,11 +150,31 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-    	System.load("/Users/bast/Downloads/FilRougeV3/commun.dylib");
+//<<<<<< HEAD
+    	//pour git
+    	/*System.load("/Users/bast/Downloads/FilRougeV3/commun.dylib");
+		System.load("/Users/bast/Downloads/FilRougeV3/texte.dylib");
+        System.load("/Users/bast/Downloads/FilRougeV3/setup.dylib");
+		System.load("/Users/bast/Downloads/FilRougeV3/son.dylib");
+		System.load("/Users/bast/Downloads/FilRougeV3/image_nb.dylib");
+		*/
+		
+    	//pour Omar
+		System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/commun.dylib");
+		System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/texte.dylib");
+        System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/setup.dylib");
+		System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/son.dylib");
+		System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/image_nb.dylib");
+//=======
+
+		
+		/*System.load("/Users/bast/Downloads/FilRougeV3/commun.dylib");
         System.load("/Users/bast/Downloads/FilRougeV3/texte.dylib");
         System.load("/Users/bast/Downloads/FilRougeV3/image_nb.dylib");
         System.load("/Users/bast/Downloads/FilRougeV3/setup.dylib");
-		System.load("/Users/bast/Downloads/FilRougeV3/son.dylib");
+		System.load("/Users/bast/Downloads/FilRougeV3/son.dylib");*/
+		///Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/image_nb.dylib
+//>>>>>>> master
         Parent root = FXMLLoader.load(getClass().getResource("Ariane'sThread.fxml"));
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Ariane's Thread");
@@ -396,7 +416,7 @@ public class Main extends Application {
     		}
     	}
     	if(!lastresult.contains(new Resultat<String, Float>("Aucun document trouvé !", 0F))) {
-    		System.out.println("condition nulle");
+    		//System.out.println("condition nulle");
     		boundSauv.ajoutHistorique(requete, lastresult);
     	}
 
@@ -409,6 +429,7 @@ public class Main extends Application {
     	    list.add(entry.getKey());
     	    list.add(entry.getValue());
     	}
+    	/*
 		if(sauvegarderPressed) {
 	    	System.out.println("test afficheHisto");
 	        if(lastresult.isEmpty()) {
@@ -428,15 +449,13 @@ public class Main extends Application {
 		else {
 			list.add("");
 		}
+		*/
+    	sauvegarderPressed = false;
 		ListHisto.setItems(list);
 		
     	
 
     }
-    
-    
-    
-    
     
     public static void main(String[] args) {
         launch(args);

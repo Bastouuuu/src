@@ -87,7 +87,7 @@ public class Historique {
 				    String[] parts = line.split(",");
 				    for(String tmp : parts){
 				    	String[] result = tmp.split("=");
-				    	hashReqRes.put(result[0],result[1]);
+				    	hashReqRes.put(result[0].trim(),result[1].trim());
 					}
 				}
 			    reader.close();

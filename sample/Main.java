@@ -437,6 +437,7 @@ public class Main extends Application {
     	if(!TextFieldMotCle.getText().isEmpty() || !TextFieldSon.getText().isEmpty() || !TextFieldSimi.getText().isEmpty()) {
     		if(!TextFieldMotCle.getText().isEmpty()) {
     			requete = TextFieldMotCle.getText();
+    			requete = requete.replaceAll(",","/");
     		}
     		else {
     			if(!TextFieldSon.getText().isEmpty()) {

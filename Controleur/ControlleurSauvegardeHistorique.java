@@ -13,12 +13,17 @@ public class ControlleurSauvegardeHistorique {
 		Historique.getInstance().ajoutHistorique(liste, tree);
 	}
 	
-	public void ecrireHistoDansFichier() {
+	public static void ecrireHistoDansFichier() {
 		Historique.getInstance().ecrireHistoDansFichier();
 	}
 	
-	public void recupHisto() {
+	public static void recupHisto() {
 		Historique.getInstance().recupHisto();
+	}
+
+	public void supprimerHisto() {
+		Historique.getInstance().supprimerHisto();
+		
 	}
 
 	

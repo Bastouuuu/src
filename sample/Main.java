@@ -189,9 +189,8 @@ public class Main extends Application {
         primaryStage.setScene(s);
         primaryStage.show();
         //s.getRoot().setStyle("-fx-base:black");
-       
-        
-        //boundSauv.recupHisto();
+        //primaryStage.getScene().getRoot().setStyle("-fx-base:black");
+
     }
 
 
@@ -441,44 +440,21 @@ public class Main extends Application {
     	list.add("");
     	sauvegarderPressed = false;
 		ListHisto.setItems(list);
-		
-		/*
-		if(sauvegarderPressed) {
-	    	System.out.println("test afficheHisto");
-	        if(lastresult.isEmpty()) {
-	        	list.add("");
-	        }
-	        else {
-	        	if(!lastresult.contains(new Resultat<String, Float>("Aucun document trouvé !", 0F))) {
-		            for(Resultat<String, Float> r : lastresult) {
-		            	//if(!r.equals(new Resultat<String, Float>("Aucun document trouvé !", 0F))) {
-		            		list.add(r.toString());
-	            	//}
-	            	}
-	        	}
-	        }
-	        sauvegarderPressed = false;
-    	}
-		else {
-			list.add("");
-		}
-		*/
     }
     
     public void supprimerHisto() {
     	boundSauv.supprimerHisto();
     	afficheHisto();
     }
-    
-//    void setDarkMode() {
-//    	if(checkBoxDarkMode.isSelected()) {
-//    		primaryStage.getScene().getRoot().setStyle("-fx-base:black");
-//    	}
-//    	else {
-//    		primaryStage.getScene().getRoot().setStyle("");
-//    	}
-//    	
-//    }
+
+    public void setDarkMode() {
+    	if(checkBoxDarkMode.isSelected()) {
+    		Layout.setStyle("-fx-base:black");
+    	}
+    	else {
+    		Layout.setStyle("");
+    	}
+    }
     
     
     
@@ -487,11 +463,6 @@ public class Main extends Application {
         launch(args);
         BoundarySauvegardeHistorique.ecrireHistoDansFichier();
     }
-    
-    /* POUR TEST OMAR 
-     /Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/partie2/DATA_FIL_ROUGE_DEV/TexteTest/03-Des_chercheurs_parviennent_à_régénérer.xml
-     
-     */
     
     
 }

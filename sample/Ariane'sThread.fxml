@@ -181,7 +181,7 @@
                            </children></AnchorPane>
                      </content>
                   </Tab>
-                  <Tab closable="false" text="Historique">
+                  <Tab fx:id="TabHisto" onSelectionChanged="#afficheHisto" text="Historique">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -196,6 +196,7 @@
                                     <Image url="@footer3.png" />
                                  </image>
                               </ImageView>
+                              <Button fx:id="ButtonSupprimer" layoutX="457.0" layoutY="27.0" mnemonicParsing="false" onMouseClicked="#supprimerHisto" text="Supprimer l'historique" />
                            </children>
                         </AnchorPane>
                     </content>

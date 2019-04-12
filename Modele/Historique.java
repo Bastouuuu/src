@@ -109,7 +109,7 @@ public class Historique {
 	    
 	}
 	
-	public void removeHisto() {
+	public void supprimerHisto() {
 		hashReqRes.clear();
 		try {
 			PrintWriter writer = new PrintWriter("historique.txt");
@@ -130,6 +130,7 @@ public class Historique {
 	public HashMap<String, String> getHash(){
 		return hashReqRes;
 	}
+
 	
 
 }

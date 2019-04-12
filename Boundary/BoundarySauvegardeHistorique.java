@@ -1,8 +1,6 @@
 package Boundary;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+
 import java.util.TreeSet;
 
 import Controleur.ControlleurSauvegardeHistorique;
@@ -20,12 +18,15 @@ public class BoundarySauvegardeHistorique {
 		controlleurSauvegardeHistorique.ajoutHistorique(liste , tree);
 	}
 	
-	public void ecrireHistoDansFichier() {
-		controlleurSauvegardeHistorique.ecrireHistoDansFichier();
+	public static void ecrireHistoDansFichier() {
+		ControlleurSauvegardeHistorique.ecrireHistoDansFichier();
 	}
 	
-	public void recupHisto() {
-		controlleurSauvegardeHistorique.recupHisto();
+	public static void recupHisto() {
+		ControlleurSauvegardeHistorique.recupHisto();
+	}
+	public void supprimerHisto() {
+		controlleurSauvegardeHistorique.supprimerHisto();
 	}
 	
 	

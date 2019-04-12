@@ -26,6 +26,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -125,6 +126,8 @@ public class Main extends Application {
     private DialogPane ErrorCritere;
     @FXML
     private AnchorPane TextError;
+    @FXML
+    private Button ButtonSupprimer;
     
 
 
@@ -181,8 +184,10 @@ public class Main extends Application {
         Scene s = new Scene(root,640,640);
         primaryStage.setScene(s);
         primaryStage.show();
+        //s.getRoot().setStyle("-fx-base:black");
+       
         
-        boundSauv.recupHisto();
+        //boundSauv.recupHisto();
     }
 
 
@@ -425,11 +430,15 @@ public class Main extends Application {
     
     public void afficheHisto() {
     	ObservableList<String> list = FXCollections.observableArrayList();
-    	for(Map.Entry<String, String> entry : historique.getHash().entrySet()) {
-    	    list.add(entry.getKey());
-    	    list.add(entry.getValue());
-    	}
-    	/*
+    		for(Map.Entry<String, String> entry : historique.getHash().entrySet()) {
+        	    list.add(entry.getKey());
+        	    list.add(entry.getValue());
+        	}
+    	list.add("");
+    	sauvegarderPressed = false;
+		ListHisto.setItems(list);
+		
+		/*
 		if(sauvegarderPressed) {
 	    	System.out.println("test afficheHisto");
 	        if(lastresult.isEmpty()) {
@@ -450,15 +459,23 @@ public class Main extends Application {
 			list.add("");
 		}
 		*/
-    	sauvegarderPressed = false;
-		ListHisto.setItems(list);
-		
-    	
-
     }
     
+    public void supprimerHisto() {
+    	boundSauv.supprimerHisto();
+    	afficheHisto();
+    }
+    
+    void setDarkMode() {
+    	primaryStage.getScene().getRoot().setStyle("-fx-base:black");
+    }
+    
+    
+    
     public static void main(String[] args) {
+    	BoundarySauvegardeHistorique.recupHisto();
         launch(args);
+        BoundarySauvegardeHistorique.ecrireHistoDansFichier();
     }
     
     /* POUR TEST OMAR 

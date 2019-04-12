@@ -446,7 +446,7 @@ public class Main extends Application {
     	boundSauv.supprimerHisto();
     	afficheHisto();
     }
-
+    
     public void setDarkMode() {
     	if(checkBoxDarkMode.isSelected()) {
     		Layout.setStyle("-fx-base:black");

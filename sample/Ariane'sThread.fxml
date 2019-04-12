@@ -37,7 +37,7 @@
                               <TextField id="TextFieldSon" fx:id="TextFieldSon" editable="false" layoutX="193.0" layoutY="293.0" prefHeight="27.0" prefWidth="304.0" promptText="Fichier son..." />
                               <Button id="ButtonParcourir" fx:id="ButtonParcourir" layoutX="516.0" layoutY="293.0" mnemonicParsing="false" onMouseClicked="#parcourirSon" text="Parcourir" />
                               <Button id="ButtonRechercher" fx:id="ButtonRechercher" layoutX="332.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#rechercher" text="Rechercher" />
-                              <Button fx:id="ButtonReset" layoutX="172.0" layoutY="426.0" mnemonicParsing="false" text="Reset" />
+                              <Button fx:id="ButtonReset" layoutX="172.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#clear" text="Reset" />
                               <ProgressBar fx:id="ProgressIndex" layoutX="232.0" layoutY="131.0" prefWidth="200.0" progress="0.0" visible="false" />
                               <ImageView fitHeight="191.0" fitWidth="241.0" layoutX="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

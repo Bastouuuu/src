@@ -28,6 +28,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -149,7 +150,7 @@ public class Main extends Application {
     private String requete="";
     boolean sauvegarderPressed = false;
     Historique historique = Historique.getInstance();
-
+    private File son;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -159,8 +160,8 @@ public class Main extends Application {
 		System.load("/Users/bast/Downloads/FilRougeV3/texte.dylib");
         System.load("/Users/bast/Downloads/FilRougeV3/setup.dylib");
 		System.load("/Users/bast/Downloads/FilRougeV3/son.dylib");
-		System.load("/Users/bast/Downloads/FilRougeV3/image_nb.dylib");
-		*/
+		System.load("/Users/bast/Downloads/FilRougeV3/image_nb.dylib");*/
+
 		
     	//pour Omar
 		System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/commun.dylib");
@@ -192,7 +193,7 @@ public class Main extends Application {
 
 
     public void disableFieldsText(){
-        if(TextFieldMotCle.getText().length() <= 0){
+        if(TextFieldMotCle.getText().length() < 1){
             ColorPickerImage.setDisable(false);
             ButtonParcourir.setDisable(false);
         }else {
@@ -230,11 +231,11 @@ public class Main extends Application {
         browser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Fichier son", "*.txt")
         );
-        File f = browser.showOpenDialog(primaryStage);
-        if(f != null){
+        son = browser.showOpenDialog(primaryStage);
+        if(son != null){
             ColorPickerImage.setDisable(true);
             TextFieldMotCle.setDisable(true);
-            TextFieldSon.setText(f.getName());
+            TextFieldSon.setText(son.getName());
         }
     }
 
@@ -372,7 +373,18 @@ public class Main extends Application {
             }).start();
         }
     }
-    
+
+    public void clear(){
+        TextFieldMotCle.clear();
+        System.out.println(TextFieldMotCle.getText().length());
+        ColorPickerImage.setValue(Color.WHITE);
+        son = null;
+        TextFieldSon.clear();
+        TextFieldMotCle.setDisable(false);
+        ColorPickerImage.setDisable(false);
+        ButtonParcourir.setDisable(false);
+    }
+
     public void configurer() {
     	String textLon = TextFieldConfigTexteLon.getText();
     	String textOcc = TextFieldConfigTexteOcc.getText();

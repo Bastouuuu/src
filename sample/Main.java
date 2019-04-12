@@ -494,14 +494,13 @@ public class Main extends Application {
     	afficheHisto();
     }
     
-    void setDarkMode() {
+    public void setDarkMode() {
     	if(checkBoxDarkMode.isSelected()) {
     		primaryStage.getScene().getRoot().setStyle("-fx-base:black");
     	}
     	else {
     		primaryStage.getScene().getRoot().setStyle("");
     	}
-    	
     }
     
     

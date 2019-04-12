@@ -50,7 +50,7 @@ public class Historique {
 		if(!hashReqRes.isEmpty()) {
 			
 			try {
-				FileWriter writer = new FileWriter("historique.txt", true);
+				FileWriter writer = new FileWriter("historique.txt", false);
 				writer.write(hashReqRes.toString()+"\n");
 				writer.flush();
 				writer.close();

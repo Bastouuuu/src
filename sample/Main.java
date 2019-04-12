@@ -151,6 +151,7 @@ public class Main extends Application {
     boolean sauvegarderPressed = false;
     Historique historique = Historique.getInstance();
     private File son;
+    private File simi;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -219,9 +220,12 @@ public class Main extends Application {
                     new FileChooser.ExtensionFilter("Fichier son", "*.txt")
             );
         }
-        File f = browser.showOpenDialog(primaryStage);
-        if(f != null){
-            TextFieldSimi.setText(f.getAbsolutePath());
+        simi = browser.showOpenDialog(primaryStage);
+        if(simi != null){
+            RadioImage.setDisable(true);
+            RadioSon.setDisable(true);
+            RadioTexte.setDisable(true);
+            TextFieldSimi.setText(simi.getAbsolutePath());
         }
     }
 
@@ -383,6 +387,14 @@ public class Main extends Application {
         TextFieldMotCle.setDisable(false);
         ColorPickerImage.setDisable(false);
         ButtonParcourir.setDisable(false);
+    }
+
+    public void clear2(){
+        simi = null;
+        TextFieldSimi.clear();
+        RadioTexte.setDisable(false);
+        RadioSon.setDisable(false);
+        RadioImage.setDisable(false);
     }
 
     public void configurer() {

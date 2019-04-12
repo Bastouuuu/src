@@ -129,6 +129,10 @@ public class Main extends Application {
     @FXML
     private Button ButtonSupprimer;
     
+    //Partie dark mode
+    @FXML
+    private CheckBox checkBoxDarkMode;
+    
 
 
     private ControlleurRechercheCritereTexte control = new ControlleurRechercheCritereTexte();
@@ -181,7 +185,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("Ariane'sThread.fxml"));
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Ariane's Thread");
-        Scene s = new Scene(root,640,640);
+        Scene s = new Scene(root,640,680);
         primaryStage.setScene(s);
         primaryStage.show();
         //s.getRoot().setStyle("-fx-base:black");
@@ -467,7 +471,13 @@ public class Main extends Application {
     }
     
     void setDarkMode() {
-    	primaryStage.getScene().getRoot().setStyle("-fx-base:black");
+    	if(checkBoxDarkMode.isSelected()) {
+    		primaryStage.getScene().getRoot().setStyle("-fx-base:black");
+    	}
+    	else {
+    		primaryStage.getScene().getRoot().setStyle("");
+    	}
+    	
     }
     
     

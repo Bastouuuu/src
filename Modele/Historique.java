@@ -84,13 +84,11 @@ public class Historique {
 				{	
 					line = new StringBuilder(line).deleteCharAt(0).toString();
 					line = new StringBuilder(line).deleteCharAt(line.length()-1).toString();
-				    String[] parts = line.split("=", 2);
-				    if (parts.length == 2)
-				    {
-				        String key = parts[0];
-				        String value = parts[1];
-				        hashReqRes.put(key, value);
-				    } 
+				    String[] parts = line.split(",");
+				    for(String tmp : parts){
+				    	String[] result = tmp.split("=");
+				    	hashReqRes.put(result[0],result[1]);
+					}
 				}
 			    reader.close();
 			} catch (IOException e) {

@@ -417,20 +417,37 @@ public class Main extends Application {
     	String newMdp = TextFieldConfigMdp.getText();
     	String x= new String();
     	if(textLon.length() != 0 && textOcc.length() != 0 && textSave.length() != 0) {
-    		controlAdmin.edit_settings_texte(Integer.parseInt(textLon), Integer.parseInt(textOcc), Integer.parseInt(textSave));
-    		x = x.concat("Texte mis a jour !\n");
+           if(Integer.parseInt(textLon) > 0 && Integer.parseInt(textOcc) > 0 && Integer.parseInt(textSave) >0) {
+               controlAdmin.edit_settings_texte(Integer.parseInt(textLon), Integer.parseInt(textOcc), Integer.parseInt(textSave));
+               x = x.concat("Texte mis a jour !\n");
+           }else{
+               x = x.concat("Texte invalide ! Les parametres doivent etre > 0.\n");
+           }
     	} 
     	if(imBPF.length() != 0 && imSeuil.length() != 0) {
-    		controlAdmin.edit_settings_image(Integer.parseInt(imBPF), Integer.parseInt(imSeuil));
-    		x = x.concat("Image mis a jour !\n");
+          if(Integer.parseInt(imBPF) > 0 && Integer.parseInt(imSeuil) > 0 && Integer.parseInt(imSeuil) <101) {
+              controlAdmin.edit_settings_image(Integer.parseInt(imBPF), Integer.parseInt(imSeuil));
+              x = x.concat("Image mis a jour !\n");
+          }else{
+              x = x.concat("Image invalide ! Bit poids fort doit etre > 0 et 0 < Seuil <= 100.\n");
+          }
     	}
     	if(sonSample.length() != 0 && sonInter.length() != 0) {
-    		controlAdmin.edit_settings_son(Integer.parseInt(sonSample), Integer.parseInt(sonInter));
-           x = x.concat("Son mis a jour !\n");
+    	    if(((Integer.parseInt(sonSample) == 1024 || Integer.parseInt(sonSample) == 2048) && Integer.parseInt(sonInter) >= 40 && Integer.parseInt(sonInter) <= 100))
+            {
+                controlAdmin.edit_settings_son(Integer.parseInt(sonSample), Integer.parseInt(sonInter));
+                x = x.concat("Son mis a jour !\n");
+            }else{
+    	        x = x.concat("Son invalide ! Nb bits doit etre 1024 ou 2048 et 40 <= nb intervalles <= 100\n");
+            }
         }
     	if(path.length() != 0) {
-    		controlAdmin.edit_settings_path(path);
-           x= x.concat("Chemin des dossiers mis a jour !\n");
+    	    if(controlAdmin.isPathValide(path)) {
+                controlAdmin.edit_settings_path(path);
+                x = x.concat("Chemin des dossiers mis a jour !\n");
+            }else{
+    	        x = x.concat(("Chemin invalide ! \n"));
+            }
         }
     	if(newMdp.length() != 0) {
     		controlAdmin.edit_setting_password(newMdp);

@@ -25,6 +25,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -33,8 +36,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.w3c.dom.Text;
 
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -124,6 +130,10 @@ public class Main extends Application {
     private ListView ListHisto;
     @FXML
     private Tab TabHisto;
+    @FXML
+    private DialogPane ErrorOpenResult;
+    @FXML
+    private AnchorPane TextErrorOpenResult;
     @FXML
     private DialogPane ErrorCritere;
     @FXML
@@ -292,6 +302,48 @@ public class Main extends Application {
         ListResult.setItems(list);
     }
 
+    public void openResult() throws IOException {
+        if(!ListResult.getSelectionModel().getSelectedItem().toString().contains("Aucun")) {
+            String path = controlAdmin.get_path();
+            String fic = ListResult.getSelectionModel().getSelectedItem().toString();
+            if (fic.contains(".xml")) {
+                path = path.concat("TexteTest/");
+            }else if(fic.contains(".jpg")){
+                path = path.concat("TEST_RGB/");
+            }else if(fic.contains(".bmp")){
+                path=path.concat("image_nb/");
+            }else if(fic.contains(".txt")){
+                path=path.concat("TEST_SON/");
+            }
+            String[] tmp = fic.split("--");
+            path = path.concat(tmp[0].trim());
+            Desktop desktop = Desktop.getDesktop();
+            File f = new File(path);
+            if(f.exists()) {
+                desktop.open(f);
+            }else{
+                Label x = new Label("Une erreur s'est produite, le fichier est introuvable.\n Veuillez relancer une recherche et re-essayer."+
+                        "\n\n\n Cliquez n'importe ou dans la fenetre pour fermer.");
+                x.setTextFill(Color.PURPLE);
+                TextErrorOpenResult.getChildren().clear();
+                TextErrorOpenResult.getChildren().add(x);
+                ErrorOpenResult.setVisible(true);
+                ErrorOpenResult.setExpandableContent(null);
+            }
+        }else{
+            Label x = new Label("Aucun fichier à ouvrir !\n\n\n Cliquez n'importe ou dans la fenetre pour fermer.");
+            x.setTextFill(Color.PURPLE);
+            TextErrorOpenResult.getChildren().clear();
+            TextErrorOpenResult.getChildren().add(x);
+            ErrorOpenResult.setVisible(true);
+            ErrorOpenResult.setExpandableContent(null);
+        }
+    }
+
+    public void closeErrorResult(){
+        this.ErrorOpenResult.setVisible(false);
+    }
+
     public void logoff(){
         TextFieldLogin.setPromptText("login admin");
         TextFieldLogin.setText("");
@@ -347,6 +399,7 @@ public class Main extends Application {
                           "Polarité (+ ou -) Mot\n Plusieurs critères peuvent être saisis, séparés d'une virgule.\n\n\n" +
                           "Cliquez n'importe où dans la fenêtre pour la fermer.");
                   x.setTextFill(Color.PURPLE);
+                  TextError.getChildren().clear();
                   TextError.getChildren().add(x);
                   ErrorCritere.setVisible(true);
                   ErrorCritere.setExpandableContent(null);

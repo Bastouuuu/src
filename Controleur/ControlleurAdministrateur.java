@@ -70,7 +70,9 @@ public class ControlleurAdministrateur {
 		}
 	}
 
-
+	public String get_path(){
+		return commun.get_path();
+	}
 
 	public void edit_settings_path(String newpath) {
 		String s = commun.get_path();

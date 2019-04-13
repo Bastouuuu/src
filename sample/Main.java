@@ -264,7 +264,7 @@ public class Main extends Application {
     }
 
     public void reloadResultFromHisto(){
-        String result = ListHisto.getSelectionModel().getSelectedItem().toString();
+        String result = ListHisto.getSelectionModel().getSelectedItem().toString().trim();
         if(!result.contains("+") && result.length() > 0 && !result.contains("/")) {
             String[] tmp = result.split(" ");
             lastresult.clear();

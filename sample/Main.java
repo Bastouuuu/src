@@ -116,6 +116,8 @@ public class Main extends Application {
     private TextField TextFieldConfigMdp;
     @FXML 
     private Button ButtonConfigurer;
+    @FXML
+    private Button ButtonClearConfig;
     
     //Partie sauvegarde historique
     @FXML
@@ -446,6 +448,18 @@ public class Main extends Application {
         TextErrorConfig.getChildren().add(y);
         ErrorConfiguration.setVisible(true);
         ErrorConfiguration.setExpandableContent(null);
+    }
+    
+    public void clearConfig() {
+    	TextFieldConfigTexteLon.clear();
+    	TextFieldConfigTexteOcc.clear();
+    	TextFieldConfigTexteSave.clear();
+    	TextFieldConfigImageBPF.clear();
+    	TextFieldConfigImageSeuil.clear();
+    	TextFieldConfigSonInter.clear();
+    	TextFieldConfigSonSample.clear();
+    	TextFieldConfigMdp.clear();
+    	TextFieldConfigPath.clear();
     }
 
     public void closeConfigDialog(){

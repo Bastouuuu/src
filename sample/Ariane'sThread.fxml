@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="Layout" prefHeight="680.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Main">
+<VBox fx:id="Layout" prefHeight="680.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Main">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
@@ -209,7 +209,7 @@
                                        </font>
                                     </Label>
                                     <PasswordField fx:id="TextFieldConfigMdp" alignment="CENTER_RIGHT" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="510.0" />
-                                    <Button layoutX="172.0" layoutY="590.0" mnemonicParsing="false" text="Reset" />
+                                    <Button fx:id="ButtonClearConfig" layoutX="172.0" layoutY="590.0" mnemonicParsing="false" onMouseClicked="#clearConfig" text="Reset" />
                                     <Button fx:id="ButtonConfigurer" layoutX="332.0" layoutY="590.0" mnemonicParsing="false" onMouseClicked="#configurer" prefHeight="26.0" prefWidth="93.0" text="Configurer" />
                                     <ImageView fitHeight="43.0" fitWidth="793.0" layoutX="-64.0" layoutY="615.0" pickOnBounds="true">
                                        <image>

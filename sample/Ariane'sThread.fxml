@@ -50,7 +50,7 @@
                                     <Image url="@footer3.png" />
                                  </image>
                               </ImageView>
-                              <DialogPane fx:id="ErrorCritere" layoutX="80.0" layoutY="150.0" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#closeDialog" prefHeight="270.0" prefWidth="480.0" style="-fx-background-color: silver; -fx-border-radius: 15;" visible="false">
+                              <DialogPane fx:id="ErrorCritere" layoutX="80.0" layoutY="150.0" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#closeDialog" prefHeight="270.0" prefWidth="480.0" style="-fx-background-color: silver; -fx-border-radius: 20 20 20 20; -fx-background-radius: 5;" visible="false">
                                   <header>
                                     <AnchorPane fx:id="TextError" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
                                   </header>
@@ -221,6 +221,17 @@
                                           <Font name="System Bold" size="15.0" />
                                        </font>
                                     </CheckBox>
+                                    <DialogPane fx:id="ErrorConfiguration" layoutX="75.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#closeConfigDialog" prefHeight="300.0" prefWidth="500.0" style="-fx-background-color: silver; -fx-border-radius: 15; -fx-background-radius: 5;" visible="false">
+                                        <header>
+                                          <AnchorPane fx:id="TextErrorConfig" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
+                                        </header>
+                                        <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
+                                        </content>
+                                        <expandableContent>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
+                                        </expandableContent>
+                                    </DialogPane>
                                  </children>
                               </AnchorPane>
                            </children></AnchorPane>

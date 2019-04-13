@@ -1,5 +1,6 @@
 package sample;
 
+import Boundary.BoundaryRechercheCritereImage;
 import Boundary.BoundaryRechercheCritereTexte;
 import Boundary.BoundaryRechercheSimilariteImage;
 import Boundary.BoundaryRechercheSimilariteTexte;
@@ -17,6 +18,7 @@ import Modele.CritereTexte;
 import Modele.Historique;
 import Modele.Polarite;
 import Modele.Resultat;
+import Modele.image_nb;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -122,6 +124,8 @@ public class Main extends Application {
     private TextField TextFieldConfigMdp;
     @FXML 
     private Button ButtonConfigurer;
+    @FXML
+    private Button ButtonClearConfig;
     
     //Partie sauvegarde historique
     @FXML
@@ -164,6 +168,9 @@ public class Main extends Application {
     private ControlleurRechercheSimilariteImage controlSimiImage = new ControlleurRechercheSimilariteImage();
     private BoundaryRechercheSimilariteImage boundSimiImage = new BoundaryRechercheSimilariteImage(controlSimiImage,index);
     private ControlleurAdministrateur controlAdmin = new ControlleurAdministrateur();
+    
+    private ControlleurRechercheCritereImage controlCritImage = new ControlleurRechercheCritereImage();
+    private BoundaryRechercheCritereImage boundCritImage = new BoundaryRechercheCritereImage(controlCritImage, index, commun);
 
     
     private String requete="";
@@ -184,11 +191,11 @@ public class Main extends Application {
 
 		
     	//pour Omar
-		System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/commun.dylib");
-		System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/texte.dylib");
-        System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/setup.dylib");
-		System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/son.dylib");
-		System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/image_nb.dylib");
+    	System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/commun.dylib");
+    	System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/texte.dylib");
+    	System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/setup.dylib");
+    	System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/son.dylib");
+    	System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/image_nb.dylib");
 //=======
 
 		
@@ -272,7 +279,7 @@ public class Main extends Application {
     public void clear(){
         son = null;
         TextFieldMotCle.clear();
-        ColorPickerImage.setValue(Color.WHITE);
+        //ColorPickerImage.setValue(Color.WHITE);
         TextFieldSon.clear();
         TextFieldMotCle.setDisable(false);
         ColorPickerImage.setDisable(false);
@@ -405,6 +412,23 @@ public class Main extends Application {
                   ErrorCritere.setExpandableContent(null);
       }
     }
+      else if(TextFieldSon.getLength() > 0) {
+    	  System.out.println("recherche son par critere a integrer");
+      }
+      else{
+    	  System.out.println("recherche crit image");
+    	  int red = (int)(255*ColorPickerImage.getValue().getRed());
+    	  int green = (int)(255*ColorPickerImage.getValue().getGreen());
+    	  int blue = (int)(255*ColorPickerImage.getValue().getBlue());
+    	  //convertir en 1 valeur 
+    	  int val = -1;
+    	  if(red == green && red == blue) {
+    		  val = red;
+    	  }
+    	  System.out.println(val);
+    	  //apeler la recherche du boundary en passant 2 fois la meme variable
+    	  boundCritImage.rechercheParCritere(val, val);
+      }
     }
 
     public void closeDialog(){
@@ -517,6 +541,18 @@ public class Main extends Application {
         ErrorConfiguration.setVisible(true);
         ErrorConfiguration.setExpandableContent(null);
     }
+    
+    public void clearConfig() {
+    	TextFieldConfigTexteLon.clear();
+    	TextFieldConfigTexteOcc.clear();
+    	TextFieldConfigTexteSave.clear();
+    	TextFieldConfigImageBPF.clear();
+    	TextFieldConfigImageSeuil.clear();
+    	TextFieldConfigSonInter.clear();
+    	TextFieldConfigSonSample.clear();
+    	TextFieldConfigMdp.clear();
+    	TextFieldConfigPath.clear();
+    }
 
     public void closeConfigDialog(){
         ErrorConfiguration.setVisible(false);
@@ -573,7 +609,9 @@ public class Main extends Application {
     	}
     }
     
-    
+    public void simuRechercheImage() {
+    	System.out.println(ColorPickerImage.getValue());
+    }
     
     public static void main(String[] args) {
     	BoundarySauvegardeHistorique.recupHisto();

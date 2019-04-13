@@ -29,9 +29,9 @@ public class Resultat<S, N> {
 	public String toString(){
 		if(this.nombre instanceof Float){
 			Float f = (Float) this.nombre;
-			return (" " + this.nom + " -- "+ f.intValue());
+			return (" " + this.nom + "--"+ f.intValue());
 		}
-		return (" " + this.nom + " -- "+ this.nombre);
+		return (" " + this.nom + "--"+ this.nombre);
 	}
   
 }

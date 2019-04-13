@@ -171,6 +171,7 @@ public class Main extends Application {
     Historique historique = Historique.getInstance();
     private File simi;
     private File son;
+    private boolean fromHisto=false;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -253,6 +254,19 @@ public class Main extends Application {
         RadioSon.setDisable(false);
         TextFieldSimi.clear();
         simi = null;
+    }
+
+    public void reloadResultFromHisto(){
+        String result = ListHisto.getSelectionModel().getSelectedItem().toString();
+        if(!result.contains("+") && result.length() > 0 && !result.contains("/")) {
+            String[] tmp = result.split(" ");
+            lastresult.clear();
+            for (String s : tmp) {
+                String[] resultat = s.split("--");
+                lastresult.add(new Resultat<String, Float>(resultat[0], Float.parseFloat(resultat[1])));
+            }
+            fromHisto = true;
+        }
     }
 
     public void parcourirSon() {
@@ -393,6 +407,7 @@ public class Main extends Application {
                   ProgressIndex.setVisible(false);
                   ButtonRechercher.setDisable(false);
               }).start();
+              fromHisto=false;
           }else{
 
                   Label x = new Label("Le formatage de la recherche est incorrect.\n La saisie doit être de la forme suivante :\n " +
@@ -433,6 +448,7 @@ public class Main extends Application {
                 ProgressSimi.setVisible(false);
                 ButtonRechercherSimi.setDisable(false);
             }).start();
+            fromHisto=false;
         }
         if(GroupRadio.getSelectedToggle() == RadioImage && TextFieldSimi.getLength() > 0){
             new Thread(() -> {
@@ -455,6 +471,7 @@ public class Main extends Application {
                 ProgressSimi.setVisible(false);
                 ButtonRechercherSimi.setDisable(false);
             }).start();
+            fromHisto=false;
         }
     }
     
@@ -526,7 +543,7 @@ public class Main extends Application {
     	boundSauv.recupHisto();
     	sauvegarderPressed = true;
 
-    	if(!TextFieldMotCle.getText().isEmpty() || !TextFieldSon.getText().isEmpty() || !TextFieldSimi.getText().isEmpty()) {
+    	if((!TextFieldMotCle.getText().isEmpty() || !TextFieldSon.getText().isEmpty() || !TextFieldSimi.getText().isEmpty() && !fromHisto)) {
     		if(!TextFieldMotCle.getText().isEmpty()) {
     			requete = TextFieldMotCle.getText();
     			requete = requete.replaceAll(",","/");
@@ -540,7 +557,7 @@ public class Main extends Application {
     			}
     		}
     	}
-    	if(!lastresult.contains(new Resultat<String, Float>("Aucun document trouvé !", 0F))) {
+    	if(!lastresult.contains(new Resultat<String, Float>("Aucun document trouvé !", 0F)) && !fromHisto) {
     		//System.out.println("condition nulle");
     		boundSauv.ajoutHistorique(requete, lastresult);
     	}

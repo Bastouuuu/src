@@ -4,8 +4,17 @@ import Boundary.BoundaryRechercheCritereTexte;
 import Boundary.BoundaryRechercheSimilariteImage;
 import Boundary.BoundaryRechercheSimilariteTexte;
 import Controleur.*;
+
+
+import Boundary.BoundarySauvegardeHistorique;
+import Controleur.ControlleurCommun;
+import Controleur.ControlleurIndexation;
+import Controleur.ControlleurRechercheCritereTexte;
+import Controleur.ControlleurRechercheSimilariteTexte;
+import Controleur.ControlleurSauvegardeHistorique;
 import Modele.ComparateurResultat;
 import Modele.CritereTexte;
+import Modele.Historique;
 import Modele.Polarite;
 import Modele.Resultat;
 import javafx.application.Application;
@@ -17,12 +26,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.TreeSet;
 
 
@@ -103,34 +116,93 @@ public class Main extends Application {
     private TextField TextFieldConfigMdp;
     @FXML 
     private Button ButtonConfigurer;
+    
+    //Partie sauvegarde historique
+    @FXML
+    private Button ButtonSauvegarder;
+    @FXML
+    private ListView ListHisto;
+    @FXML
+    private Tab TabHisto;
+    @FXML
+    private DialogPane ErrorCritere;
+    @FXML
+    private DialogPane ErrorConfiguration;
+    @FXML
+    private AnchorPane TextErrorConfig;
+    @FXML
+    private AnchorPane TextError;
+    @FXML
+    private Button ButtonSupprimer;
+    
+    //Partie dark mode
+    @FXML
+    private CheckBox checkBoxDarkMode;
+    
+
 
     private ControlleurRechercheCritereTexte control = new ControlleurRechercheCritereTexte();
     private ControlleurRechercheSimilariteTexte controlSimi = new ControlleurRechercheSimilariteTexte();
+    private ControlleurSauvegardeHistorique controlSauv = new ControlleurSauvegardeHistorique();
+    private BoundarySauvegardeHistorique boundSauv = new BoundarySauvegardeHistorique(controlSauv);
     private ControlleurIndexation index = new ControlleurIndexation();
     private ControlleurCommun commun = new ControlleurCommun();
     private BoundaryRechercheCritereTexte bound = new BoundaryRechercheCritereTexte(control,index,commun);
     private BoundaryRechercheSimilariteTexte boundSimi = new BoundaryRechercheSimilariteTexte(controlSimi,index);
     private TreeSet<Resultat<String,Float>> lastresult = new TreeSet<>(new ComparateurResultat());
+
     private ControlleurRechercheSimilariteImage controlSimiImage = new ControlleurRechercheSimilariteImage();
     private BoundaryRechercheSimilariteImage boundSimiImage = new BoundaryRechercheSimilariteImage(controlSimiImage,index);
     private ControlleurAdministrateur controlAdmin = new ControlleurAdministrateur();
 
+    
+    private String requete="";
+    boolean sauvegarderPressed = false;
+    Historique historique = Historique.getInstance();
+    private File simi;
+    private File son;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-    	System.load("/Users/bast/Downloads/FilRougeV3/commun.dylib");
+//<<<<<< HEAD
+    	//pour git
+    	/*System.load("/Users/bast/Downloads/FilRougeV3/commun.dylib");
+		System.load("/Users/bast/Downloads/FilRougeV3/texte.dylib");
+        System.load("/Users/bast/Downloads/FilRougeV3/setup.dylib");
+		System.load("/Users/bast/Downloads/FilRougeV3/son.dylib");
+		System.load("/Users/bast/Downloads/FilRougeV3/image_nb.dylib");*/
+
+		
+    	//pour Omar
+		System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/commun.dylib");
+		System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/texte.dylib");
+        System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/setup.dylib");
+		System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/son.dylib");
+		System.load("/Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/image_nb.dylib");
+//=======
+
+		
+		/*System.load("/Users/bast/Downloads/FilRougeV3/commun.dylib");
         System.load("/Users/bast/Downloads/FilRougeV3/texte.dylib");
         System.load("/Users/bast/Downloads/FilRougeV3/image_nb.dylib");
+        System.load("/Users/bast/Downloads/FilRougeV3/setup.dylib");
+		System.load("/Users/bast/Downloads/FilRougeV3/son.dylib");*/
+		///Users/o/Documents/TRAVAIL/1A_UPSSI/Fil_rouge/FilRougeV3/image_nb.dylib
+//>>>>>>> master
         Parent root = FXMLLoader.load(getClass().getResource("Ariane'sThread.fxml"));
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Ariane's Thread");
-        Scene s = new Scene(root,640,640);
+        Scene s = new Scene(root,640,680);
         primaryStage.setScene(s);
         primaryStage.show();
+        //s.getRoot().setStyle("-fx-base:black");
+        //primaryStage.getScene().getRoot().setStyle("-fx-base:black");
+
     }
 
 
     public void disableFieldsText(){
-        if(TextFieldMotCle.getText().length() <= 0){
+        if(TextFieldMotCle.getText().length() < 1){
             ColorPickerImage.setDisable(false);
             ButtonParcourir.setDisable(false);
         }else {
@@ -156,24 +228,45 @@ public class Main extends Application {
                     new FileChooser.ExtensionFilter("Fichier son", "*.txt")
             );
         }
-        File f = browser.showOpenDialog(primaryStage);
-        if(f != null){
-            TextFieldSimi.setText(f.getAbsolutePath());
+        simi = browser.showOpenDialog(primaryStage);
+        if(simi != null){
+            RadioImage.setDisable(true);
+            RadioSon.setDisable(true);
+            RadioTexte.setDisable(true);
+            TextFieldSimi.setText(simi.getAbsolutePath());
         }
     }
 
-    public void parcourirSon(){
+    public void clear2(){
+        RadioTexte.setDisable(false);
+        RadioImage.setDisable(false);
+        RadioSon.setDisable(false);
+        TextFieldSimi.clear();
+        simi = null;
+    }
+
+    public void parcourirSon() {
         FileChooser browser = new FileChooser();
         browser.setTitle("Ouvrir un document...");
         browser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Fichier son", "*.txt")
         );
-        File f = browser.showOpenDialog(primaryStage);
-        if(f != null){
+        son = browser.showOpenDialog(primaryStage);
+        if(son != null){
             ColorPickerImage.setDisable(true);
             TextFieldMotCle.setDisable(true);
-            TextFieldSon.setText(f.getName());
+            TextFieldSon.setText(son.getName());
         }
+    }
+
+    public void clear(){
+        son = null;
+        TextFieldMotCle.clear();
+        ColorPickerImage.setValue(Color.WHITE);
+        TextFieldSon.clear();
+        TextFieldMotCle.setDisable(false);
+        ColorPickerImage.setDisable(false);
+        ButtonParcourir.setDisable(false);
     }
 
     public void login(){
@@ -206,49 +299,64 @@ public class Main extends Application {
 
     public void rechercher(){
       if(TextFieldMotCle.getLength() > 0) {
-          new Thread(() -> {
-              ButtonRechercher.setDisable(true);
-              ProgressIndex.setVisible(true);
-              ArrayList<CritereTexte> list = new ArrayList<>();
-              String s = TextFieldMotCle.getText();
-              ProgressIndex.setProgress(0.1);
-              String[] ss = s.split(",");
-              ProgressIndex.setProgress(0.3);
-              if(ss.length > 1){
-                  for(int i= 0;i <ss.length;i++){
-                      if(ss[i].charAt(0) == '+'){
-                          list.add(new CritereTexte(Polarite.PRESENT,ss[i].substring(1).trim()));
-                      }else if(ss[i].charAt(0) == '-'){
-                          list.add(new CritereTexte(Polarite.ABSENT,ss[i].substring(1).trim()));
+          if(TextFieldMotCle.getText().charAt(0) == '+' || TextFieldMotCle.getText().charAt(0) == '-') {
+              new Thread(() -> {
+                  ButtonRechercher.setDisable(true);
+                  ProgressIndex.setVisible(true);
+                  ArrayList<CritereTexte> list = new ArrayList<>();
+                  String s = TextFieldMotCle.getText();
+                  ProgressIndex.setProgress(0.1);
+                  String[] ss = s.split(",");
+                  ProgressIndex.setProgress(0.3);
+                  if (ss.length > 1) {
+                      for (int i = 0; i < ss.length; i++) {
+                          if (ss[i].charAt(0) == '+') {
+                              list.add(new CritereTexte(Polarite.PRESENT, ss[i].substring(1).trim()));
+                          } else if (ss[i].charAt(0) == '-') {
+                              list.add(new CritereTexte(Polarite.ABSENT, ss[i].substring(1).trim()));
+                          }
+                      }
+                      ProgressIndex.setProgress(0.6);
+                  } else {
+                      if (ss[0].charAt(0) == '+') {
+                          list.add(new CritereTexte(Polarite.PRESENT, ss[0].substring(1).trim()));
+                      } else if (ss[0].charAt(0) == '-') {
+                          list.add(new CritereTexte(Polarite.ABSENT, ss[0].substring(1).trim()));
                       }
                   }
-                  ProgressIndex.setProgress(0.6);
-              }else{
-                  if(ss[0].charAt(0) == '+'){
-                      list.add(new CritereTexte(Polarite.PRESENT,ss[0].substring(1).trim()));
-                  }else if(ss[0].charAt(0) == '-'){
-                      list.add(new CritereTexte(Polarite.ABSENT,ss[0].substring(1).trim()));
+                  ProgressIndex.setProgress(0.7);
+                  lastresult.clear();
+                  TreeSet<Resultat<String, Float>> tmp = bound.rechercheParCritereComplexe(list);
+                  ProgressIndex.setProgress(1.0);
+                  try {
+                      Thread.sleep(500);
+                  } catch (InterruptedException e) {
+                      System.out.println(e);
                   }
-              }
-              ProgressIndex.setProgress(0.7);
-              lastresult.clear();
-              TreeSet<Resultat<String,Float>>  tmp = bound.rechercheParCritereComplexe(list);
-              ProgressIndex.setProgress(1.0);
-              try{
-                  Thread.sleep(500);
-              }catch(InterruptedException e){
-                  System.out.println(e);
-              }
-              if(tmp == null){
-                  lastresult.add(new Resultat<String,Float>("Aucun document trouvé !", 0F));
-              }else {
-                  lastresult.addAll(tmp);
-              }
-              ProgressIndex.setVisible(false);
-              ButtonRechercher.setDisable(false);
-          }).start();
+                  if (tmp == null) {
+                      lastresult.add(new Resultat<String, Float>("Aucun document trouvé !", 0F));
+                  } else {
+                      lastresult.addAll(tmp);
+                  }
+                  ProgressIndex.setVisible(false);
+                  ButtonRechercher.setDisable(false);
+              }).start();
+          }else{
+
+                  Label x = new Label("Le formatage de la recherche est incorrect.\n La saisie doit être de la forme suivante :\n " +
+                          "Polarité (+ ou -) Mot\n Plusieurs critères peuvent être saisis, séparés d'une virgule.\n\n\n" +
+                          "Cliquez n'importe où dans la fenêtre pour la fermer.");
+                  x.setTextFill(Color.PURPLE);
+                  TextError.getChildren().add(x);
+                  ErrorCritere.setVisible(true);
+                  ErrorCritere.setExpandableContent(null);
       }
     }
+    }
+
+    public void closeDialog(){
+          ErrorCritere.setVisible(false);
+        }
 
     public void rechercherSimi(){
         if(GroupRadio.getSelectedToggle() == RadioTexte && TextFieldSimi.getLength() > 0){
@@ -307,27 +415,101 @@ public class Main extends Application {
     	String sonInter = TextFieldConfigSonInter.getText();
     	String path = TextFieldConfigPath.getText();
     	String newMdp = TextFieldConfigMdp.getText();
+    	String x= new String();
     	if(textLon.length() != 0 && textOcc.length() != 0 && textSave.length() != 0) {
     		controlAdmin.edit_settings_texte(Integer.parseInt(textLon), Integer.parseInt(textOcc), Integer.parseInt(textSave));
+    		x = x.concat("Texte mis a jour !\n");
     	} 
     	if(imBPF.length() != 0 && imSeuil.length() != 0) {
     		controlAdmin.edit_settings_image(Integer.parseInt(imBPF), Integer.parseInt(imSeuil));
+    		x = x.concat("Image mis a jour !\n");
     	}
     	if(sonSample.length() != 0 && sonInter.length() != 0) {
     		controlAdmin.edit_settings_son(Integer.parseInt(sonSample), Integer.parseInt(sonInter));
-    	}
+           x = x.concat("Son mis a jour !\n");
+        }
     	if(path.length() != 0) {
     		controlAdmin.edit_settings_path(path);
-    	}
+           x= x.concat("Chemin des dossiers mis a jour !\n");
+        }
     	if(newMdp.length() != 0) {
     		controlAdmin.edit_setting_password(newMdp);
-    	}
-    	/*else {
-    		System.out.println("Veuillez remplir au moins tous les champs d'un type de configuration.");
-    	}*/
+          x=  x.concat("Mot de passe mis a jour !\n");
+        }
+        if(x.isEmpty()){
+           x= x.concat("Tous les champs d'un type de document doivent etre remplis pour valider\n les modifications.");
+        }
+        x = x.concat("\n\n\n Cliquer n'importe ou dans la fenetre pour fermer.");
+        Label y = new Label(x);
+        y.setTextFill(Color.PURPLE);
+        TextErrorConfig.getChildren().clear();
+        TextErrorConfig.getChildren().add(y);
+        ErrorConfiguration.setVisible(true);
+        ErrorConfiguration.setExpandableContent(null);
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    public void closeConfigDialog(){
+        ErrorConfiguration.setVisible(false);
     }
+
+    public void saveHisto() {
+    	boundSauv.recupHisto();
+    	sauvegarderPressed = true;
+
+    	if(!TextFieldMotCle.getText().isEmpty() || !TextFieldSon.getText().isEmpty() || !TextFieldSimi.getText().isEmpty()) {
+    		if(!TextFieldMotCle.getText().isEmpty()) {
+    			requete = TextFieldMotCle.getText();
+    			requete = requete.replaceAll(",","/");
+    		}
+    		else {
+    			if(!TextFieldSon.getText().isEmpty()) {
+    				requete = TextFieldSon.getText();
+    			}
+    			else {
+    				requete = TextFieldSimi.getText();
+    			}
+    		}
+    	}
+    	if(!lastresult.contains(new Resultat<String, Float>("Aucun document trouvé !", 0F))) {
+    		//System.out.println("condition nulle");
+    		boundSauv.ajoutHistorique(requete, lastresult);
+    	}
+
+    	
+    }
+    
+    public void afficheHisto() {
+    	ObservableList<String> list = FXCollections.observableArrayList();
+    		for(Map.Entry<String, String> entry : historique.getHash().entrySet()) {
+        	    list.add(entry.getKey());
+        	    list.add(entry.getValue());
+        	}
+    	list.add("");
+    	sauvegarderPressed = false;
+		ListHisto.setItems(list);
+    }
+    
+    public void supprimerHisto() {
+    	boundSauv.supprimerHisto();
+    	afficheHisto();
+    }
+    
+    public void setDarkMode() {
+    	if(checkBoxDarkMode.isSelected()) {
+    		Layout.setStyle("-fx-base:black");
+    	}
+    	else {
+    		Layout.setStyle("");
+    	}
+    }
+    
+    
+    
+    public static void main(String[] args) {
+    	BoundarySauvegardeHistorique.recupHisto();
+        launch(args);
+        BoundarySauvegardeHistorique.ecrireHistoDansFichier();
+    }
+    
+    
 }

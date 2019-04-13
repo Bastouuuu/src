@@ -127,6 +127,10 @@ public class Main extends Application {
     @FXML
     private DialogPane ErrorCritere;
     @FXML
+    private DialogPane ErrorConfiguration;
+    @FXML
+    private AnchorPane TextErrorConfig;
+    @FXML
     private AnchorPane TextError;
     @FXML
     private Button ButtonSupprimer;
@@ -342,6 +346,7 @@ public class Main extends Application {
                   Label x = new Label("Le formatage de la recherche est incorrect.\n La saisie doit être de la forme suivante :\n " +
                           "Polarité (+ ou -) Mot\n Plusieurs critères peuvent être saisis, séparés d'une virgule.\n\n\n" +
                           "Cliquez n'importe où dans la fenêtre pour la fermer.");
+                  x.setTextFill(Color.PURPLE);
                   TextError.getChildren().add(x);
                   ErrorCritere.setVisible(true);
                   ErrorCritere.setExpandableContent(null);
@@ -410,24 +415,41 @@ public class Main extends Application {
     	String sonInter = TextFieldConfigSonInter.getText();
     	String path = TextFieldConfigPath.getText();
     	String newMdp = TextFieldConfigMdp.getText();
+    	String x= new String();
     	if(textLon.length() != 0 && textOcc.length() != 0 && textSave.length() != 0) {
     		controlAdmin.edit_settings_texte(Integer.parseInt(textLon), Integer.parseInt(textOcc), Integer.parseInt(textSave));
+    		x = x.concat("Texte mis a jour !\n");
     	} 
     	if(imBPF.length() != 0 && imSeuil.length() != 0) {
     		controlAdmin.edit_settings_image(Integer.parseInt(imBPF), Integer.parseInt(imSeuil));
+    		x = x.concat("Image mis a jour !\n");
     	}
     	if(sonSample.length() != 0 && sonInter.length() != 0) {
     		controlAdmin.edit_settings_son(Integer.parseInt(sonSample), Integer.parseInt(sonInter));
-    	}
+           x = x.concat("Son mis a jour !\n");
+        }
     	if(path.length() != 0) {
     		controlAdmin.edit_settings_path(path);
-    	}
+           x= x.concat("Chemin des dossiers mis a jour !\n");
+        }
     	if(newMdp.length() != 0) {
     		controlAdmin.edit_setting_password(newMdp);
-    	}
-    	/*else {
-    		System.out.println("Veuillez remplir au moins tous les champs d'un type de configuration.");
-    	}*/
+          x=  x.concat("Mot de passe mis a jour !\n");
+        }
+        if(x.isEmpty()){
+           x= x.concat("Tous les champs d'un type de document doivent etre remplis pour valider\n les modifications.");
+        }
+        x = x.concat("\n\n\n Cliquer n'importe ou dans la fenetre pour fermer.");
+        Label y = new Label(x);
+        y.setTextFill(Color.PURPLE);
+        TextErrorConfig.getChildren().clear();
+        TextErrorConfig.getChildren().add(y);
+        ErrorConfiguration.setVisible(true);
+        ErrorConfiguration.setExpandableContent(null);
+    }
+
+    public void closeConfigDialog(){
+        ErrorConfiguration.setVisible(false);
     }
 
     public void saveHisto() {

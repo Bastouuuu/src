@@ -89,7 +89,13 @@ public class ControlleurAdministrateur {
 		}
 	}
 
-
+	public boolean isPathValide(String s){
+		int a = commun.fileExists(s);
+		if(a == 1){
+			return true;
+		}
+		return false;
+	}
 
 	public void edit_setting_password(String newpass) {
 		//boolean passvalide = false;

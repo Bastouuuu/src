@@ -134,7 +134,7 @@
                                     <Font name="System Bold" size="18.0" />
                                  </font>
                               </Label>
-                              <ListView fx:id="ListHisto" layoutX="30.0" layoutY="84.0" onContextMenuRequested="#afficheHisto" onEditStart="#afficheHisto" prefHeight="381.0" prefWidth="581.0" />
+                              <ListView fx:id="ListHisto" layoutX="30.0" layoutY="84.0" onContextMenuRequested="#afficheHisto" onEditStart="#afficheHisto" onMouseClicked="#reloadResultFromHisto" prefHeight="381.0" prefWidth="581.0" />
                               <ImageView fitHeight="43.0" fitWidth="793.0" layoutX="-64.0" layoutY="615.0" pickOnBounds="true">
                                  <image>
                                     <Image url="@footer3.png" />

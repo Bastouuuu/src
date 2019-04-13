@@ -69,26 +69,23 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <RadioButton fx:id="RadioTexte" layoutX="195.0" layoutY="66.0" mnemonicParsing="false" selected="true" text="Texte">
+                              <ImageView fitHeight="191.0" fitWidth="241.0" layoutX="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@56716147_444951749577677_8080154912068993024_n.png" />
+                                 </image>
+                              </ImageView>
+                              <RadioButton fx:id="RadioTexte" layoutX="195.0" layoutY="170.0" mnemonicParsing="false" selected="true" text="Texte">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="GroupRadio" />
                                  </toggleGroup></RadioButton>
-                              <Label layoutX="29.0" layoutY="63.0" text="Type de fichier :">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <RadioButton fx:id="RadioImage" layoutX="317.0" layoutY="66.0" mnemonicParsing="false" text="Image" toggleGroup="$GroupRadio" />
-                              <RadioButton fx:id="RadioSon" layoutX="437.0" layoutY="66.0" mnemonicParsing="false" text="Son" toggleGroup="$GroupRadio" />
-                              <Label layoutX="29.0" layoutY="158.0" text="Fichier à comparer:">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="TextFieldSimi" layoutX="212.0" layoutY="156.0" prefHeight="27.0" prefWidth="272.0" />
-                              <Button fx:id="ButtonParcourirSimi" layoutX="529.0" layoutY="156.0" mnemonicParsing="false" onMouseClicked="#parcourir" text="Parcourir" />
-                              <Button fx:id="ButtonRechercherSimi" layoutX="332.0" layoutY="297.0" mnemonicParsing="false" onMouseClicked="#rechercherSimi" text="Rechercher" />
-                              <Button fx:id="ButtonResetSimi" layoutX="172.0" layoutY="297.0" mnemonicParsing="false" onMouseClicked="#clear2" text="Reset" />
+                              <Label text="Type de fichier :" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="170.0" />
+                              <RadioButton fx:id="RadioImage" layoutX="317.0" layoutY="170.0" mnemonicParsing="false" text="Image" toggleGroup="$GroupRadio" />
+                              <RadioButton fx:id="RadioSon" layoutX="437.0" layoutY="170.0" mnemonicParsing="false" text="Son" toggleGroup="$GroupRadio" />
+                              <Label layoutX="30.0" layoutY="270.0" text="Fichier à comparer :" AnchorPane.leftAnchor="30.0" />
+                              <TextField fx:id="TextFieldSimi" layoutX="212.0" layoutY="265.0" prefHeight="27.0" prefWidth="272.0" />
+                              <Button fx:id="ButtonParcourirSimi" layoutX="529.0" layoutY="265.0" mnemonicParsing="false" onMouseClicked="#parcourir" text="Parcourir" />
+                              <Button fx:id="ButtonRechercherSimi" layoutX="332.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#rechercherSimi" text="Rechercher" />
+                              <Button fx:id="ButtonResetSimi" layoutX="172.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#clear2" text="Reset" />
                               <ProgressBar fx:id="ProgressSimi" layoutX="232.0" layoutY="128.0" prefWidth="200.0" progress="0.0" visible="false" />
                               <ImageView fitHeight="43.0" fitWidth="793.0" layoutX="-64.0" layoutY="615.0" pickOnBounds="true">
                                  <image>

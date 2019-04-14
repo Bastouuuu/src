@@ -30,7 +30,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextField id="TextFieldMotCle" fx:id="TextFieldMotCle" layoutX="193.0" layoutY="165.0" onKeyReleased="#disableFieldsText" prefHeight="27.0" prefWidth="305.0" promptText="Mots-clés" />
+                              <TextField id="TextFieldMotCle" fx:id="TextFieldMotCle" layoutX="193.0" layoutY="165.0" onAction="#setTextFilterCritere" onKeyReleased="#disableFieldsText" onMouseClicked="#setTextFilterCritere" prefHeight="27.0" prefWidth="305.0" promptText="Mots-clés" />
                               <ColorPicker id="ColorPickerImage" fx:id="ColorPickerImage" layoutX="193.0" layoutY="220.0" pickOnBounds="false" promptText="Palette couleurs" />
                               <Label layoutX="46.0" layoutY="225.0" text="Palette de couleurs :" />
                               <Label layoutX="102.0" layoutY="170.0" text="Mots-clés :" />

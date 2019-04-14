@@ -130,6 +130,7 @@ public class Controller {
     private CheckBox checkBoxDarkMode;
 
     private boolean TextFiltersConfigSet = false;
+    private boolean TextFilterCritereSet = false;
 
     private ControlleurRechercheCritereTexte control = new ControlleurRechercheCritereTexte();
     private ControlleurRechercheSimilariteTexte controlSimi = new ControlleurRechercheSimilariteTexte();
@@ -148,6 +149,7 @@ public class Controller {
     private ControlleurRechercheCritereImage controlCritImage = new ControlleurRechercheCritereImage();
     private BoundaryRechercheCritereImage boundCritImage = new BoundaryRechercheCritereImage(controlCritImage, index, commun);
 
+    private char CharInterdit[]= {'$','*','!','?','&','�','�','%','/',':',',','�','\\','�','+','-'};
 
     private String requete="";
     boolean sauvegarderPressed = false;
@@ -190,6 +192,21 @@ public class Controller {
         }else {
             ColorPickerImage.setDisable(true);
             ButtonParcourir.setDisable(true);
+        }
+    }
+
+    public void setTextFilterCritere(){
+        if(!TextFilterCritereSet){
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String text = change.getText();
+            if (text.matches("[0-9]*")|| text.matches("[a-z]*") || text.matches("[,]*") || text.matches("[+]*") || text.matches("[-]*") || text.matches("[A-Z]*")) {
+                return change;
+            }
+            return null;
+        };
+        TextFormatter<String> textFormatter = new TextFormatter<>(filter);
+        TextFieldMotCle.setTextFormatter(textFormatter);
+        TextFilterCritereSet=true;
         }
     }
 

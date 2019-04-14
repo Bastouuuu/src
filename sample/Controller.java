@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeSet;
+import java.util.function.UnaryOperator;
 
 public class Controller {
 
@@ -128,7 +129,7 @@ public class Controller {
     @FXML
     private CheckBox checkBoxDarkMode;
 
-
+    private boolean TextFiltersConfigSet = false;
 
     private ControlleurRechercheCritereTexte control = new ControlleurRechercheCritereTexte();
     private ControlleurRechercheSimilariteTexte controlSimi = new ControlleurRechercheSimilariteTexte();
@@ -157,6 +158,29 @@ public class Controller {
 
     public void setPrimaryStage(Stage s){
         this.primaryStage = s;
+    }
+
+    public void setTextFilters(){
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String text = change.getText();
+            if (text.matches("[0-9]*")) {
+                return change;
+            }
+
+            return null;
+        };
+        TextFormatter<String> textFormatter = new TextFormatter<>(filter);
+        TextFieldConfigImageSeuil.setTextFormatter(textFormatter);
+        TextFormatter<String> textFormatter2 = new TextFormatter<>(filter);
+        TextFieldConfigSonInter.setTextFormatter(textFormatter2);
+        TextFormatter<String> textFormatter3 = new TextFormatter<>(filter);
+        TextFieldConfigSonSample.setTextFormatter(textFormatter3);
+        TextFormatter<String> textFormatter4 = new TextFormatter<>(filter);
+        TextFieldConfigTexteLon.setTextFormatter(textFormatter4);
+        TextFormatter<String> textFormatter5 = new TextFormatter<>(filter);
+        TextFieldConfigTexteOcc.setTextFormatter(textFormatter5);
+        TextFormatter<String> textFormatter6 = new TextFormatter<>(filter);
+        TextFieldConfigTexteSave.setTextFormatter(textFormatter6);
     }
 
     public void disableFieldsText(){
@@ -241,6 +265,10 @@ public class Controller {
     }
 
     public void login(){
+        if(!TextFiltersConfigSet){
+            setTextFilters();
+            TextFiltersConfigSet=true;
+        }
         if (TextFieldLogin.getText().equals(controlAdmin.get_password())) {
             TextFieldLogin.setVisible(false);
             AnchorParam.setVisible(true);
@@ -308,6 +336,8 @@ public class Controller {
     public void logoff(){
         TextFieldLogin.setPromptText("login admin");
         TextFieldLogin.setText("");
+        TextFieldLogin.setVisible(true);
+        AnchorParam.setVisible(false);
     }
 
     public void rechercher(){

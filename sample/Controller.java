@@ -3,6 +3,7 @@ package sample;
 import Boundary.*;
 import Controleur.*;
 import Modele.*;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,7 +16,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.w3c.dom.Text;
 
 import java.awt.*;
 import java.io.File;
@@ -30,10 +30,6 @@ public class Controller {
     //Partie recherche critère
     @FXML
     private Button ButtonRechercher;
-    @FXML
-    private Button ButtonParcourir;
-    @FXML
-    private TextField TextFieldSon;
 
     @FXML
     private TextField TextFieldMotCle;
@@ -42,7 +38,8 @@ public class Controller {
     private ColorPicker ColorPickerImage;
     @FXML
     private Button ButtonRechercherSimi;
-
+    @FXML
+    private ListView MiniListResult;
 
     //Partie recherche similarité
     @FXML
@@ -130,6 +127,7 @@ public class Controller {
     @FXML
     private CheckBox checkBoxDarkMode;
 
+    //Initialisation des formatteurs de saisie
     private boolean TextFiltersConfigSet = false;
     private boolean TextFilterCritereSet = false;
 
@@ -187,10 +185,8 @@ public class Controller {
     public void disableFieldsText(){
         if(TextFieldMotCle.getText().length() < 1){
             ColorPickerImage.setDisable(false);
-            ButtonParcourir.setDisable(false);
         }else {
             ColorPickerImage.setDisable(true);
-            ButtonParcourir.setDisable(true);
         }
     }
 
@@ -256,28 +252,13 @@ public class Controller {
         }
     }
 
-    public void parcourirSon() {
-        FileChooser browser = new FileChooser();
-        browser.setTitle("Ouvrir un document...");
-        browser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Fichier son", "*.txt")
-        );
-        son = browser.showOpenDialog(primaryStage);
-        if(son != null){
-            ColorPickerImage.setDisable(true);
-            TextFieldMotCle.setDisable(true);
-            TextFieldSon.setText(son.getName());
-        }
-    }
 
     public void clear(){
         son = null;
         TextFieldMotCle.clear();
         ColorPickerImage.setValue(Color.WHITE);
-        TextFieldSon.clear();
         TextFieldMotCle.setDisable(false);
         ColorPickerImage.setDisable(false);
-        ButtonParcourir.setDisable(false);
     }
 
     public void login(){
@@ -307,6 +288,34 @@ public class Controller {
         ListResult.setItems(list);
     }
 
+    public void afficheResultMini(){
+        Platform.runLater(
+                () -> {
+                    // Update UI here.
+                    int maxsize;
+                    ObservableList<String> list = FXCollections.observableArrayList();
+                    if (lastresult.isEmpty()) {
+                        list.add("Aucune recherche récente");
+                    } else {
+                        list.clear();
+                        if (lastresult.size() > 5) {
+                            maxsize = 5;
+                        } else {
+                            maxsize = lastresult.size();
+                        }
+                        int i = 0;
+                        for (Resultat<String, Float> r : lastresult) {
+                            if (i < maxsize) {
+                                list.add(r.toString());
+                                i++;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                    MiniListResult.setItems(list);
+                });
+    }
     public void openResult() throws IOException {
         if(!ListResult.getSelectionModel().getSelectedItem().toString().contains("Aucun")) {
             String path = controlAdmin.get_path();
@@ -357,9 +366,10 @@ public class Controller {
     }
 
     public void rechercher(){
+        Thread th = null;
         if(TextFieldMotCle.getLength() > 0) {
             if((TextFieldMotCle.getText().contains("-") &&  TextFieldMotCle.getText().contains(",") || (!TextFieldMotCle.getText().contains("-")))) {
-                   Thread th = new Thread() {
+                    th = new Thread() {
                        public void run() {
                            ButtonRechercher.setDisable(true);
                            ProgressIndex.setVisible(true);
@@ -399,6 +409,7 @@ public class Controller {
                                    lastresult.add(new Resultat<String, Float>("Aucun document trouvé !", 0F));
                                } else {
                                    lastresult.addAll(tmp);
+                                   afficheResultMini();
                                }
                                fromHisto=false;
                            } else {
@@ -426,9 +437,6 @@ public class Controller {
                 ErrorCritere.setVisible(true);
                 ErrorCritere.setExpandableContent(null);
             }
-        }
-        else if(TextFieldSon.getLength() > 0) {
-            System.out.println("recherche son par critere a integrer");
         }
         else{
             System.out.println("recherche crit image");
@@ -579,26 +587,19 @@ public class Controller {
         boundSauv.recupHisto();
         sauvegarderPressed = true;
 
-        if((!TextFieldMotCle.getText().isEmpty() || !TextFieldSon.getText().isEmpty() || !TextFieldSimi.getText().isEmpty() && !fromHisto)) {
+        if((!TextFieldMotCle.getText().isEmpty() || !TextFieldSimi.getText().isEmpty() && !fromHisto)) {
             if(!TextFieldMotCle.getText().isEmpty()) {
                 requete = TextFieldMotCle.getText();
                 requete = requete.replaceAll(",","/");
             }
             else {
-                if(!TextFieldSon.getText().isEmpty()) {
-                    requete = TextFieldSon.getText();
-                }
-                else {
-                    requete = TextFieldSimi.getText();
-                }
+                requete = TextFieldSimi.getText();
             }
         }
         if(!lastresult.contains(new Resultat<String, Float>("Aucun document trouvé !", 0F)) && !fromHisto) {
             //System.out.println("condition nulle");
             boundSauv.ajoutHistorique(requete, lastresult);
         }
-
-
     }
 
     public void afficheHisto() {

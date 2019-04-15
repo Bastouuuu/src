@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.w3c.dom.Text;
 
 import java.awt.*;
 import java.io.File;
@@ -357,53 +358,67 @@ public class Controller {
 
     public void rechercher(){
         if(TextFieldMotCle.getLength() > 0) {
-            if(TextFieldMotCle.getText().charAt(0) == '+' || TextFieldMotCle.getText().charAt(0) == '-') {
-                new Thread(() -> {
-                    ButtonRechercher.setDisable(true);
-                    ProgressIndex.setVisible(true);
-                    ArrayList<CritereTexte> list = new ArrayList<>();
-                    String s = TextFieldMotCle.getText();
-                    ProgressIndex.setProgress(0.1);
-                    String[] ss = s.split(",");
-                    ProgressIndex.setProgress(0.3);
-                    if (ss.length > 1) {
-                        for (int i = 0; i < ss.length; i++) {
-                            if (ss[i].charAt(0) == '+') {
-                                list.add(new CritereTexte(Polarite.PRESENT, ss[i].substring(1).trim()));
-                            } else if (ss[i].charAt(0) == '-') {
-                                list.add(new CritereTexte(Polarite.ABSENT, ss[i].substring(1).trim()));
-                            }
-                        }
-                        ProgressIndex.setProgress(0.6);
-                    } else {
-                        if (ss[0].charAt(0) == '+') {
-                            list.add(new CritereTexte(Polarite.PRESENT, ss[0].substring(1).trim()));
-                        } else if (ss[0].charAt(0) == '-') {
-                            list.add(new CritereTexte(Polarite.ABSENT, ss[0].substring(1).trim()));
-                        }
-                    }
-                    ProgressIndex.setProgress(0.7);
-                    lastresult.clear();
-                    TreeSet<Resultat<String, Float>> tmp = bound.rechercheParCritereComplexe(list);
-                    ProgressIndex.setProgress(1.0);
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        System.out.println(e);
-                    }
-                    if (tmp == null) {
-                        lastresult.add(new Resultat<String, Float>("Aucun document trouvé !", 0F));
-                    } else {
-                        lastresult.addAll(tmp);
-                    }
-                    ProgressIndex.setVisible(false);
-                    ButtonRechercher.setDisable(false);
-                }).start();
-                fromHisto=false;
+            if((TextFieldMotCle.getText().contains("-") &&  TextFieldMotCle.getText().contains(",") || (!TextFieldMotCle.getText().contains("-")))) {
+                   Thread th = new Thread() {
+                       public void run() {
+                           ButtonRechercher.setDisable(true);
+                           ProgressIndex.setVisible(true);
+                           ArrayList<CritereTexte> list = new ArrayList<>();
+                           String s = TextFieldMotCle.getText();
+                           ProgressIndex.setProgress(0.1);
+                           String[] ss = s.split(",");
+                           ProgressIndex.setProgress(0.3);
+                           for (int i = 0; i < ss.length; i++) {
+                               if (ss[i].charAt(0) == '+') {
+                                   list.add(new CritereTexte(Polarite.PRESENT, ss[i].substring(1).trim()));
+                               } else if (ss[i].charAt(0) == '-') {
+                                   list.add(new CritereTexte(Polarite.ABSENT, ss[i].substring(1).trim()));
+                               } else {
+                                   list.add(new CritereTexte(Polarite.PRESENT, ss[i].trim()));
+                               }
+                           }
+                           boolean critvalides = false;
+                           for (CritereTexte t : list) {
+                               if (t.getPolarite() == Polarite.PRESENT) {
+                                   critvalides = true;
+                                   break;
+                               }
+                           }
+                           ProgressIndex.setProgress(0.6);
+                           ProgressIndex.setProgress(0.7);
+                           if (critvalides) {
+                               lastresult.clear();
+                               TreeSet<Resultat<String, Float>> tmp = bound.rechercheParCritereComplexe(list);
+                               ProgressIndex.setProgress(1.0);
+                               try {
+                                   Thread.sleep(500);
+                               } catch (InterruptedException e) {
+                                   System.out.println(e);
+                               }
+                               if (tmp == null) {
+                                   lastresult.add(new Resultat<String, Float>("Aucun document trouvé !", 0F));
+                               } else {
+                                   lastresult.addAll(tmp);
+                               }
+                               fromHisto=false;
+                           } else {
+                               ErrorCritere.setVisible(true);
+                           }
+                           ProgressIndex.setVisible(false);
+                           ButtonRechercher.setDisable(false);
+                       }
+                   };
+                   th.start();
+                Label x = new Label("ERREUR : la recherche doit au moins comporter un mot-clé PRESENT. \n\n\n" +
+                        "Cliquez n'importe où dans la fenêtre pour la fermer.");
+                x.setTextFill(javafx.scene.paint.Color.PURPLE);
+                TextError.getChildren().clear();
+                TextError.getChildren().add(x);
+                ErrorCritere.setExpandableContent(null);
             }else{
-
                 Label x = new Label("Le formatage de la recherche est incorrect.\n La saisie doit être de la forme suivante :\n " +
-                        "Polarité (+ ou -) Mot\n Plusieurs critères peuvent être saisis, séparés d'une virgule.\n\n\n" +
+                        "Polarité (+ ou -) Mot\n Plusieurs critères peuvent être saisis, séparés d'une virgule.\n" +
+                        "Au moins un mot-clé doit être PRESENT.\n\n\n" +
                         "Cliquez n'importe où dans la fenêtre pour la fermer.");
                 x.setTextFill(javafx.scene.paint.Color.PURPLE);
                 TextError.getChildren().clear();

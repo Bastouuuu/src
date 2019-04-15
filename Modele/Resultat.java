@@ -26,6 +26,17 @@ public class Resultat<S, N> {
 		this.nombre = nb;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Resultat){
+			Resultat tmp = (Resultat) o;
+			if(tmp.nom.equals(nom) && tmp.nombre == nombre){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public String toString(){
 		if(this.nombre instanceof Float){
 			Float f = (Float) this.nombre;

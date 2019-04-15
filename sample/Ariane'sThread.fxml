@@ -26,19 +26,16 @@
       <children>
             <TabPane fx:id="TabPane" prefHeight="680.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab closable="false" text="RechercheCritère">
+                <Tab closable="false" onSelectionChanged="#afficheResultMini" text="RechercheCritère">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" onContextMenuRequested="#afficheResultMini" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <TextField id="TextFieldMotCle" fx:id="TextFieldMotCle" layoutX="193.0" layoutY="165.0" onAction="#setTextFilterCritere" onKeyReleased="#disableFieldsText" onMouseClicked="#setTextFilterCritere" prefHeight="27.0" prefWidth="305.0" promptText="Mots-clés" />
-                              <ColorPicker id="ColorPickerImage" fx:id="ColorPickerImage" layoutX="193.0" layoutY="220.0" pickOnBounds="false" promptText="Palette couleurs" />
-                              <Label layoutX="46.0" layoutY="225.0" text="Palette de couleurs :" />
+                              <ColorPicker id="ColorPickerImage" fx:id="ColorPickerImage" layoutX="193.0" layoutY="256.0" pickOnBounds="false" promptText="Palette couleurs" />
+                              <Label layoutX="46.0" layoutY="261.0" text="Palette de couleurs :" />
                               <Label layoutX="102.0" layoutY="170.0" text="Mots-clés :" />
-                              <Label layoutX="140.0" layoutY="298.0" text="Son :" />
-                              <TextField id="TextFieldSon" fx:id="TextFieldSon" editable="false" layoutX="193.0" layoutY="293.0" prefHeight="27.0" prefWidth="304.0" promptText="Fichier son..." />
-                              <Button id="ButtonParcourir" fx:id="ButtonParcourir" layoutX="516.0" layoutY="293.0" mnemonicParsing="false" onMouseClicked="#parcourirSon" text="Parcourir" />
-                              <Button id="ButtonRechercher" fx:id="ButtonRechercher" layoutX="332.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#rechercher" text="Rechercher" />
-                              <Button fx:id="ButtonReset" layoutX="172.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#clear" text="Reset" />
+                              <Button id="ButtonRechercher" fx:id="ButtonRechercher" layoutX="332.0" layoutY="356.0" mnemonicParsing="false" onMouseClicked="#rechercher" text="Rechercher" />
+                              <Button fx:id="ButtonReset" layoutX="172.0" layoutY="354.0" mnemonicParsing="false" onMouseClicked="#clear" text="Reset" />
                               <ProgressBar fx:id="ProgressIndex" layoutX="232.0" layoutY="131.0" prefWidth="200.0" progress="0.0" visible="false" />
                               <ImageView fitHeight="191.0" fitWidth="241.0" layoutX="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -61,6 +58,7 @@
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
                                   </expandableContent>
                               </DialogPane>
+                              <ListView fx:id="MiniListResult" layoutX="39.0" layoutY="440.0" onContextMenuRequested="#afficheResultMini" onEditStart="#afficheResultMini" prefHeight="130.0" prefWidth="575.0" />
                            </children>
                         </AnchorPane>
                   </content>

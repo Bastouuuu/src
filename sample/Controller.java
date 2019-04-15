@@ -149,8 +149,6 @@ public class Controller {
     private ControlleurRechercheCritereImage controlCritImage = new ControlleurRechercheCritereImage();
     private BoundaryRechercheCritereImage boundCritImage = new BoundaryRechercheCritereImage(controlCritImage, index, commun);
 
-    private char CharInterdit[]= {'$','*','!','?','&','�','�','%','/',':',',','�','\\','�','+','-'};
-
     private String requete="";
     boolean sauvegarderPressed = false;
     Historique historique = Historique.getInstance();
@@ -274,7 +272,7 @@ public class Controller {
     public void clear(){
         son = null;
         TextFieldMotCle.clear();
-        //ColorPickerImage.setValue(Color.WHITE);
+        ColorPickerImage.setValue(Color.WHITE);
         TextFieldSon.clear();
         TextFieldMotCle.setDisable(false);
         ColorPickerImage.setDisable(false);

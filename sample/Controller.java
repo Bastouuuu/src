@@ -148,6 +148,9 @@ public class Controller {
     private ControlleurRechercheCritereImage controlCritImage = new ControlleurRechercheCritereImage();
     private BoundaryRechercheCritereImage boundCritImage = new BoundaryRechercheCritereImage(controlCritImage, index, commun);
 
+    private ControlleurSon controlSon = new ControlleurSon();
+    private BoundaryRechercheSon boundSon = new BoundaryRechercheSon(controlSon);
+
     private String requete="";
     boolean sauvegarderPressed = false;
     Historique historique = Historique.getInstance();
@@ -504,6 +507,29 @@ public class Controller {
                 ButtonRechercherSimi.setDisable(false);
             }).start();
             fromHisto=false;
+        }
+        if(GroupRadio.getSelectedToggle() == RadioSon && TextFieldSimi.getLength() > 0){
+                new Thread(() -> {
+                    ButtonRechercherSimi.setDisable(true);
+                    ProgressSimi.setVisible(true);
+                    ProgressSimi.setProgress(0.6);
+                    TreeSet<Resultat<String, Float>> tmp = boundSon.rechercheSon(TextFieldSimi.getText());
+                    lastresult.clear();
+                    if (!tmp.isEmpty()) {
+                        lastresult.addAll(tmp);
+                    } else {
+                        lastresult.add(new Resultat<String, Float>("Aucun document trouvé !", 0F));
+                    }
+                    ProgressSimi.setProgress(1.0);
+                    try{
+                        Thread.sleep(500);
+                    }catch(InterruptedException e){
+                        System.out.println(e);
+                    }
+                    ProgressSimi.setVisible(false);
+                    ButtonRechercherSimi.setDisable(false);
+                }).start();
+                fromHisto=false;
         }
     }
 

@@ -26,9 +26,9 @@
       <children>
             <TabPane fx:id="TabPane" prefHeight="680.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab closable="false" onSelectionChanged="#afficheResultMini" text="RechercheCritère">
+                <Tab closable="false" text="RechercheCritère">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" onContextMenuRequested="#afficheResultMini" prefHeight="180.0" prefWidth="200.0">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <TextField id="TextFieldMotCle" fx:id="TextFieldMotCle" layoutX="193.0" layoutY="165.0" onAction="#setTextFilterCritere" onKeyReleased="#disableFieldsText" onMouseClicked="#setTextFilterCritere" prefHeight="27.0" prefWidth="305.0" promptText="Mots-clés" />
                               <ColorPicker id="ColorPickerImage" fx:id="ColorPickerImage" layoutX="193.0" layoutY="256.0" pickOnBounds="false" promptText="Palette couleurs" />
@@ -58,7 +58,7 @@
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
                                   </expandableContent>
                               </DialogPane>
-                              <ListView fx:id="MiniListResult" layoutX="39.0" layoutY="440.0" onContextMenuRequested="#afficheResultMini" onEditStart="#afficheResultMini" prefHeight="130.0" prefWidth="575.0" />
+                              <ListView fx:id="MiniListResult" layoutX="39.0" layoutY="440.0" onEditStart="#afficheResultMini" prefHeight="130.0" prefWidth="575.0" />
                            </children>
                         </AnchorPane>
                   </content>

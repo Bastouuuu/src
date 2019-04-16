@@ -52,6 +52,8 @@ public class Controller {
     private RadioButton RadioSon;
     @FXML
     private TextField TextFieldSimi;
+    @FXML
+    private ListView ListResultSimi;
     //Partie admin
     @FXML
     private Tab PaneAdministrator;
@@ -319,6 +321,36 @@ public class Controller {
                     MiniListResult.setItems(list);
                 });
     }
+
+    public void afficheResultSimi(){
+        Platform.runLater(
+                () -> {
+                    // Update UI here.
+                    int maxsize;
+                    ObservableList<String> list = FXCollections.observableArrayList();
+                    if (lastresult.isEmpty()) {
+                        list.add("Aucune recherche récente");
+                    } else {
+                        list.clear();
+                        if (lastresult.size() > 5) {
+                            maxsize = 5;
+                        } else {
+                            maxsize = lastresult.size();
+                        }
+                        int i = 0;
+                        for (Resultat<String, Float> r : lastresult) {
+                            if (i < maxsize) {
+                                list.add(r.toString());
+                                i++;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                    ListResultSimi.setItems(list);
+                });
+    }
+
     public void openResult() throws IOException {
         if(!ListResult.getSelectionModel().getSelectedItem().toString().contains("Aucun")) {
             String path = controlAdmin.get_path();
@@ -329,7 +361,7 @@ public class Controller {
                 path = path.concat("TEST_RGB/");
             }else if(fic.contains(".bmp")){
                 path=path.concat("image_nb/");
-            }else if(fic.contains(".txt")){
+            }else if(fic.contains(".wav")){
                 path=path.concat("TEST_SON/");
             }
             String[] tmp = fic.split("--");
@@ -471,6 +503,7 @@ public class Controller {
                 lastresult.clear();
                 if (!tmp.isEmpty()) {
                     lastresult.addAll(tmp);
+                    afficheResultSimi();
                 } else {
                     lastresult.add(new Resultat<String, Float>("Aucun document trouvé !", 0F));
                 }
@@ -494,6 +527,7 @@ public class Controller {
                 lastresult.clear();
                 if (!tmp.isEmpty()) {
                     lastresult.addAll(tmp);
+                    afficheResultSimi();
                 } else {
                     lastresult.add(new Resultat<String, Float>("Aucun document trouvé !", 0F));
                 }
@@ -517,6 +551,7 @@ public class Controller {
                     lastresult.clear();
                     if (!tmp.isEmpty()) {
                         lastresult.addAll(tmp);
+                        afficheResultSimi();
                     } else {
                         lastresult.add(new Resultat<String, Float>("Aucun document trouvé !", 0F));
                     }

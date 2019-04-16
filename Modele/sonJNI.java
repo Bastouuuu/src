@@ -12,6 +12,7 @@ public class sonJNI {
   public final static native void indexationSon(String jarg1);
   public final static native void indexSon();
   public final static native int existSon(String jarg1);
+  public final static native String rechercheSonBis(String jarg1);
   public final static native void premiereValeur1();
   public final static native void premiereValeur2();
   public final static native void distance(int jarg1);

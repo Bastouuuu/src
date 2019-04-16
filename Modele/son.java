@@ -21,6 +21,10 @@ public class son {
     return sonJNI.existSon(inode);
   }
 
+  public static String rechercheSonBis(String c) {
+    return sonJNI.rechercheSonBis(c);
+  }
+
   public static void premiereValeur1() {
     sonJNI.premiereValeur1();
   }

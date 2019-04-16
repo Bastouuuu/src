@@ -39,6 +39,8 @@ public class Controller {
     @FXML
     private Button ButtonRechercherSimi;
     @FXML
+    private Button ButtonReset;
+    @FXML
     private ListView MiniListResult;
 
     //Partie recherche similarité
@@ -54,6 +56,8 @@ public class Controller {
     private TextField TextFieldSimi;
     @FXML
     private ListView ListResultSimi;
+    @FXML
+    private Button ButtonResetSimi;
     //Partie admin
     @FXML
     private Tab PaneAdministrator;
@@ -242,6 +246,9 @@ public class Controller {
         RadioSon.setDisable(false);
         TextFieldSimi.clear();
         simi = null;
+        ObservableList<String> list = FXCollections.observableArrayList();
+        ListResultSimi.setItems(list);
+
     }
 
     public void reloadResultFromHisto(){
@@ -264,6 +271,8 @@ public class Controller {
         ColorPickerImage.setValue(Color.WHITE);
         TextFieldMotCle.setDisable(false);
         ColorPickerImage.setDisable(false);
+        ObservableList<String> list = FXCollections.observableArrayList();
+        MiniListResult.setItems(list);
     }
 
     public void login(){
@@ -407,6 +416,7 @@ public class Controller {
                     th = new Thread() {
                        public void run() {
                            ButtonRechercher.setDisable(true);
+                           ButtonReset.setDisable(true);
                            ProgressIndex.setVisible(true);
                            ArrayList<CritereTexte> list = new ArrayList<>();
                            String s = TextFieldMotCle.getText();
@@ -452,6 +462,8 @@ public class Controller {
                            }
                            ProgressIndex.setVisible(false);
                            ButtonRechercher.setDisable(false);
+                           ButtonReset.setDisable(false);
+
                        }
                    };
                    th.start();
@@ -498,6 +510,7 @@ public class Controller {
             new Thread(() -> {
                 ButtonRechercherSimi.setDisable(true);
                 ProgressSimi.setVisible(true);
+                ButtonResetSimi.setDisable(true);
                 ProgressSimi.setProgress(0.6);
                 TreeSet<Resultat<String, Float>> tmp = boundSimi.rechercheSimilariteTexte(TextFieldSimi.getText());
                 lastresult.clear();
@@ -515,12 +528,14 @@ public class Controller {
                 }
                 ProgressSimi.setVisible(false);
                 ButtonRechercherSimi.setDisable(false);
+                ButtonResetSimi.setDisable(false);
             }).start();
             fromHisto=false;
         }
         if(GroupRadio.getSelectedToggle() == RadioImage && TextFieldSimi.getLength() > 0){
             new Thread(() -> {
                 ButtonRechercherSimi.setDisable(true);
+                ButtonResetSimi.setDisable(true);
                 ProgressSimi.setVisible(true);
                 ProgressSimi.setProgress(0.6);
                 TreeSet<Resultat<String, Float>> tmp = boundSimiImage.rechercheSimilariteImage(TextFieldSimi.getText());
@@ -539,12 +554,14 @@ public class Controller {
                 }
                 ProgressSimi.setVisible(false);
                 ButtonRechercherSimi.setDisable(false);
+                ButtonResetSimi.setDisable(false);
             }).start();
             fromHisto=false;
         }
         if(GroupRadio.getSelectedToggle() == RadioSon && TextFieldSimi.getLength() > 0){
                 new Thread(() -> {
                     ButtonRechercherSimi.setDisable(true);
+                    ButtonResetSimi.setDisable(true);
                     ProgressSimi.setVisible(true);
                     ProgressSimi.setProgress(0.6);
                     TreeSet<Resultat<String, Float>> tmp = boundSon.rechercheSon(TextFieldSimi.getText());
@@ -562,6 +579,7 @@ public class Controller {
                         System.out.println(e);
                     }
                     ProgressSimi.setVisible(false);
+                    ButtonResetSimi.setDisable(false);
                     ButtonRechercherSimi.setDisable(false);
                 }).start();
                 fromHisto=false;

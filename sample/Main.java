@@ -15,10 +15,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
     	System.load("/Users/bast/Downloads/FilRougeV3/commun.dylib");
-		System.load("/Users/bast/Downloads/FilRougeV3/texte.dylib");
-        System.load("/Users/bast/Downloads/FilRougeV3/setup.dylib");
-		System.load("/Users/bast/Downloads/FilRougeV3/son.dylib");
-		System.load("/Users/bast/Downloads/FilRougeV3/image_nb.dylib");
+    	System.load("/Users/bast/Downloads/FilRougeV3/texte.dylib");
+    	System.load("/Users/bast/Downloads/FilRougeV3/setup.dylib");
+    	System.load("/Users/bast/Downloads/FilRougeV3/son.dylib");
+    	System.load("/Users/bast/Downloads/FilRougeV3/image_nb.dylib");
         Parent root = FXMLLoader.load(getClass().getResource("Ariane'sThread.fxml"));
         c.setPrimaryStage(primaryStage);
         primaryStage.setTitle("Ariane's Thread");

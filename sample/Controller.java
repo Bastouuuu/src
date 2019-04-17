@@ -486,18 +486,41 @@ public class Controller {
             }
         }
         else{
-            System.out.println("recherche crit image");
-            int red = (int)(255*ColorPickerImage.getValue().getRed());
-            int green = (int)(255*ColorPickerImage.getValue().getGreen());
-            int blue = (int)(255*ColorPickerImage.getValue().getBlue());
-            //convertir en 1 valeur
-            int val = -1;
-            if(red == green && red == blue) {
-                val = red;
-            }
-            System.out.println(val);
-            //apeler la recherche du boundary en passant 2 fois la meme variable
-            boundCritImage.rechercheParCritere(val, val);
+        	//Partie Image
+            new Thread(() -> {
+                ButtonRechercher.setDisable(true);
+                ButtonReset.setDisable(true);
+                ProgressIndex.setVisible(true);
+                ProgressIndex.setProgress(0.6);
+                // on recupere les valeurs
+                int red = (int)(255*ColorPickerImage.getValue().getRed());
+                int green = (int)(255*ColorPickerImage.getValue().getGreen());
+                int blue = (int)(255*ColorPickerImage.getValue().getBlue());
+                //convertir en 1 valeur pour les images noir et blanc
+                int val = -1;
+                if(red == green && red == blue) {
+                    val = red;
+                }
+                //apeler la recherche du boundary en passant 2 fois la meme variable
+                TreeSet<Resultat<String, Float>> tmp = simuRechercheImage(val,val);
+                lastresult.clear();
+                if (!tmp.isEmpty()) {
+                    lastresult.addAll(tmp);
+                    afficheResultMini();
+                } else {
+                    lastresult.add(new Resultat<String, Float>("Aucun document trouvé !", 0F));
+                }
+                ProgressIndex.setProgress(1.0);
+                try{
+                    Thread.sleep(500);
+                }catch(InterruptedException e){
+                    System.out.println(e);
+                }
+                ProgressIndex.setVisible(false);
+                ButtonReset.setDisable(false);
+                ButtonRechercher.setDisable(false);
+            }).start();
+            fromHisto=false;            
         }
     }
 
@@ -666,13 +689,16 @@ public class Controller {
         boundSauv.recupHisto();
         sauvegarderPressed = true;
 
-        if((!TextFieldMotCle.getText().isEmpty() || !TextFieldSimi.getText().isEmpty() && !fromHisto)) {
+        if((!TextFieldMotCle.getText().isEmpty() || !ColorPickerImage.getPromptText().isEmpty() || !TextFieldSimi.getText().isEmpty() && !fromHisto)) {
             if(!TextFieldMotCle.getText().isEmpty()) {
                 requete = TextFieldMotCle.getText();
                 requete = requete.replaceAll(",","/");
             }
-            else {
+            else if(!TextFieldSimi.getText().isEmpty()){
                 requete = TextFieldSimi.getText();
+            }
+            else {
+            	requete = String.valueOf((int)(ColorPickerImage.getValue().getRed()*255)) + " " + String.valueOf((int)(ColorPickerImage.getValue().getGreen()*255)) + " " + String.valueOf((int)(ColorPickerImage.getValue().getBlue()*255));
             }
         }
         if(!lastresult.contains(new Resultat<String, Float>("Aucun document trouvé !", 0F)) && !fromHisto) {
@@ -706,7 +732,53 @@ public class Controller {
         }
     }
 
-    public void simuRechercheImage() {
-        System.out.println(ColorPickerImage.getValue());
+    public TreeSet<Resultat<String,Float>> simuRechercheImage(int valMin, int valMax) {
+    	TreeSet<Resultat<String,Float>> hash = new TreeSet<Resultat<String,Float>>(new ComparateurResultat()) ;
+    	Resultat<String, Float> r1 = new Resultat<String, Float>();
+    	Resultat<String, Float> r2 = new Resultat<String, Float>();
+    	Resultat<String, Float> r3 = new Resultat<String, Float>();
+    	Resultat<String, Float> r4 = new Resultat<String, Float>();
+    	Resultat<String, Float> r5 = new Resultat<String, Float>();
+    	Resultat<String, Float> r6 = new Resultat<String, Float>();
+    	//Set pour la recherche de blanc
+    	if (valMin == 255) {
+    		r1 = new Resultat<String, Float>("51.bmp", 75.0F);
+        	r2 = new Resultat<String, Float>("52.bmp", 75.0F);
+        	r3 = new Resultat<String, Float>("53.bmp", 70.0F);
+        	hash.add(r1);
+        	hash.add(r2);
+        	hash.add(r3);
+    	}
+    	//Set pour la recherche de noir
+    	else if(valMin == 0) {
+    		r1 = new Resultat<String, Float>("56.bmp", 78.0F);
+        	r2 = new Resultat<String, Float>("56.bmp", 75.0F);
+        	r3 = new Resultat<String, Float>("54.bmp", 72.0F);
+        	r4 = new Resultat<String, Float>("57.bmp", 52.0F);
+        	r5 = new Resultat<String, Float>("58.bmp", 49.0F);
+        	r6 = new Resultat<String, Float>("62.bmp", 45.0F);
+        	hash.add(r1);
+        	hash.add(r2);
+        	hash.add(r3);
+        	hash.add(r4);
+        	hash.add(r5);
+        	hash.add(r6);
+    	}
+    	//Set pour la recherche de rouge (et toutes les autres recherches)
+    	else {
+    		r1 = new Resultat<String, Float>("16.jpg", 95.0F);
+        	r2 = new Resultat<String, Float>("17.jpg", 80.0F);
+        	r3 = new Resultat<String, Float>("36.jpg", 75.0F);
+        	r4 = new Resultat<String, Float>("38.jpg", 50.0F);
+        	r5 = new Resultat<String, Float>("42.jpg", 41.0F);
+        	r6 = new Resultat<String, Float>("43.jpg", 40.0F);
+        	hash.add(r1);
+        	hash.add(r2);
+        	hash.add(r3);
+        	hash.add(r4);
+        	hash.add(r5);
+        	hash.add(r6);
+    	}
+		return hash;
     }
 }

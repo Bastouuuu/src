@@ -20,10 +20,12 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeSet;
 import java.util.function.UnaryOperator;
+
 
 public class Controller {
 
@@ -296,7 +298,7 @@ public class Controller {
         }else{
             list.clear();
             for (Resultat<String, Float> r : lastresult) {
-                list.add(r.toString());
+                list.add(r.toString().replaceAll("[^a-zA-Z0-9_.,/-]+",""));
             }
         }
         ListResult.setItems(list);
@@ -320,7 +322,7 @@ public class Controller {
                         int i = 0;
                         for (Resultat<String, Float> r : lastresult) {
                             if (i < maxsize) {
-                                list.add(r.toString());
+                                list.add(r.toString().replaceAll("[^a-zA-Z0-9_.,/-]+",""));
                                 i++;
                             } else {
                                 break;
@@ -349,7 +351,7 @@ public class Controller {
                         int i = 0;
                         for (Resultat<String, Float> r : lastresult) {
                             if (i < maxsize) {
-                                list.add(r.toString());
+                                list.add(r.toString().replaceAll("[^a-zA-Z0-9_.,/-]+",""));
                                 i++;
                             } else {
                                 break;

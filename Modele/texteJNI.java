@@ -33,12 +33,6 @@ public class texteJNI {
   public final static native int PILE_estVide(long jarg1);
   public final static native long emPILE(long jarg1, String jarg2, int jarg3, int jarg4);
   public final static native void ignore_etoile(String jarg1);
-  public final static native void Result_nom_set(long jarg1, String jarg2);
-  public final static native String Result_nom_get(long jarg1);
-  public final static native void Result_match_set(long jarg1, float jarg2);
-  public final static native float Result_match_get(long jarg1);
-  public final static native long new_Result();
-  public final static native void delete_Result(long jarg1);
   public final static native void indexer();
   public final static native String recherchecrit(String jarg1);
   public final static native String recherchesimi(String jarg1);
@@ -67,4 +61,10 @@ public class texteJNI {
   public final static native long notempty1_get();
   public final static native void notempty2_set(long jarg1);
   public final static native long notempty2_get();
+  public final static native void Result_nom_set(long jarg1, String jarg2);
+  public final static native String Result_nom_get(long jarg1);
+  public final static native void Result_match_set(long jarg1, float jarg2);
+  public final static native float Result_match_get(long jarg1);
+  public final static native long new_Result();
+  public final static native void delete_Result(long jarg1);
 }

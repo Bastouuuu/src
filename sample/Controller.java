@@ -254,7 +254,7 @@ public class Controller {
 
     public void reloadResultFromHisto(){
         String result = ListHisto.getSelectionModel().getSelectedItem().toString().trim();
-        if(!result.contains("+") && result.length() > 0 && !result.contains("/")) {
+        if(!result.contains("+") && result.length() > 0 && !result.contains("/") && result.contains("--")) {
             String[] tmp = result.split(" ");
             lastresult.clear();
             for (String s : tmp) {
@@ -298,6 +298,7 @@ public class Controller {
             list.clear();
             for (Resultat<String, Float> r : lastresult) {
                 list.add(r.toString().replaceAll("[^a-zA-Z0-9_.,/-]+",""));
+                r.setNom(r.getNom().replaceAll("[^a-zA-Z0-9_.,/-]+",""));
             }
         }
         ListResult.setItems(list);
@@ -414,6 +415,7 @@ public class Controller {
         Thread th = null;
         if(TextFieldMotCle.getLength() > 0) {
             if((TextFieldMotCle.getText().contains("-") &&  TextFieldMotCle.getText().contains(",") || (!TextFieldMotCle.getText().contains("-")))) {
+                clear2();
                     th = new Thread() {
                        public void run() {
                            ButtonRechercher.setDisable(true);
@@ -487,6 +489,7 @@ public class Controller {
             }
         }
         else{
+            clear2();
         	//Partie Image
             new Thread(() -> {
                 ButtonRechercher.setDisable(true);
@@ -531,6 +534,7 @@ public class Controller {
 
     public void rechercherSimi(){
         if(GroupRadio.getSelectedToggle() == RadioTexte && TextFieldSimi.getLength() > 0){
+            clear();
             new Thread(() -> {
                 ButtonRechercherSimi.setDisable(true);
                 ProgressSimi.setVisible(true);
@@ -557,6 +561,7 @@ public class Controller {
             fromHisto=false;
         }
         if(GroupRadio.getSelectedToggle() == RadioImage && TextFieldSimi.getLength() > 0){
+            clear();
             new Thread(() -> {
                 ButtonRechercherSimi.setDisable(true);
                 ButtonResetSimi.setDisable(true);
@@ -583,6 +588,7 @@ public class Controller {
             fromHisto=false;
         }
         if(GroupRadio.getSelectedToggle() == RadioSon && TextFieldSimi.getLength() > 0){
+            clear();
                 new Thread(() -> {
                     ButtonRechercherSimi.setDisable(true);
                     ButtonResetSimi.setDisable(true);
@@ -690,15 +696,14 @@ public class Controller {
         boundSauv.recupHisto();
         sauvegarderPressed = true;
 
-        if((!TextFieldMotCle.getText().isEmpty() || !ColorPickerImage.getPromptText().isEmpty() || !TextFieldSimi.getText().isEmpty() && !fromHisto)) {
+        if((!TextFieldMotCle.getText().isEmpty() || !ColorPickerImage.getPromptText().isEmpty() || !TextFieldSimi.getText().isEmpty()) && !fromHisto) {
             if(!TextFieldMotCle.getText().isEmpty()) {
                 requete = TextFieldMotCle.getText();
                 requete = requete.replaceAll(",","/");
             }
             else if(!TextFieldSimi.getText().isEmpty()){
                 requete = TextFieldSimi.getText();
-            }
-            else {
+            } else {
             	requete = String.valueOf((int)(ColorPickerImage.getValue().getRed()*255)) + " " + String.valueOf((int)(ColorPickerImage.getValue().getGreen()*255)) + " " + String.valueOf((int)(ColorPickerImage.getValue().getBlue()*255));
             }
         }

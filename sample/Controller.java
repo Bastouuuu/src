@@ -255,7 +255,7 @@ public class Controller {
 
     public void reloadResultFromHisto(){
         String result = ListHisto.getSelectionModel().getSelectedItem().toString().trim();
-        if(!result.contains("+") && result.length() > 0 && !result.contains("/")) {
+        if(!result.contains("+") && result.length() > 0 && !result.contains("/") && result.contains("--")) {
             String[] tmp = result.split(" ");
             lastresult.clear();
             for (String s : tmp) {

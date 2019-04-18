@@ -8,7 +8,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class Historique {
 	
@@ -40,6 +42,17 @@ public class Historique {
 			hashReqRes.put(liste, s);
 		}
 	}
+
+	public static <K, V> String mapToString(Map<K, V> map) {
+		return map.entrySet()
+				.stream()
+				.map(
+						entry -> (entry.getKey() == map ? "(this Map)" : entry.getKey())
+								+ "="
+								+ (entry.getValue() == map ? "(this Map)" : entry.getValue()))
+				.collect(Collectors.joining("; ", "{", "}"));
+	}
+
 	
 	public void ecrireHistoDansFichier() {
 
@@ -48,7 +61,7 @@ public class Historique {
 			
 			try {
 				FileWriter writer = new FileWriter("historique.txt", false);
-				writer.write(hashReqRes.toString()+"\n");
+				writer.write(mapToString(hashReqRes)+"\n");
 				writer.flush();
 				writer.close();
 			} catch (IOException e) {
@@ -81,7 +94,7 @@ public class Historique {
 				{	
 					line = new StringBuilder(line).deleteCharAt(0).toString();
 					line = new StringBuilder(line).deleteCharAt(line.length()-1).toString();
-				    String[] parts = line.split(",");
+				    String[] parts = line.split(";");
 				    for(String tmp : parts){
 				    	String[] result = tmp.split("=");
 				    	hashReqRes.put(result[0].trim(),result[1].trim());

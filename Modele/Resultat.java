@@ -26,6 +26,9 @@ public class Resultat<S, N> {
 		this.nombre = nb;
 	}
 
+	public void setNom(S s) {
+		this.nom = s;
+	}
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Resultat){

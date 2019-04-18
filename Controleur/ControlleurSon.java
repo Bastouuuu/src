@@ -1,5 +1,6 @@
 package Controleur;
 
+import java.util.Iterator;
 import java.util.TreeSet;
 
 import Modele.ComparateurResultat;

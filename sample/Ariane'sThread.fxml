@@ -58,7 +58,7 @@
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
                                   </expandableContent>
                               </DialogPane>
-                              <ListView fx:id="MiniListResult" layoutX="33.0" layoutY="440.0" onEditStart="#afficheResultMini" prefHeight="130.0" prefWidth="575.0" />
+                              <ListView fx:id="MiniListResult" layoutX="33.0" layoutY="440.0" onEditStart="#afficheResultMini" onMouseClicked="#openResult2" prefHeight="130.0" prefWidth="575.0" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -90,7 +90,18 @@
                                     <Image url="@footer3.png" />
                                  </image>
                               </ImageView>
-                              <ListView fx:id="ListResultSimi" layoutX="33.0" layoutY="442.0" prefHeight="130.0" prefWidth="575.0" />
+                              <ListView fx:id="ListResultSimi" layoutX="33.0" layoutY="442.0" onMouseClicked="#openResult3" prefHeight="130.0" prefWidth="575.0" />
+                              <DialogPane fx:id="SimiErrorBox" layoutX="93.0" layoutY="115.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#closeErrorSimi" prefHeight="300.0" prefWidth="480.0" style="-fx-background-color: silver; -fx-border-radius: 20 20 20 20; -fx-background-radius: 5;" visible="false">
+                                  <header>
+                                    <AnchorPane fx:id="TextErrorSimi" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
+                                  </header>
+                                  <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
+                                  </content>
+                                  <expandableContent>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
+                                  </expandableContent>
+                              </DialogPane>
                            </children></AnchorPane>
                   </content>
                 </Tab>

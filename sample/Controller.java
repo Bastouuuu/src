@@ -14,11 +14,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.awt.*;
-import java.awt.Dialog;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.TreeSet;
 import java.util.function.UnaryOperator;
 
-import static java.lang.System.exit;
 
 
 public class Controller {
@@ -114,6 +113,8 @@ public class Controller {
     private Button ButtonConfigurer;
     @FXML
     private Button ButtonClearConfig;
+    @FXML
+    private Button ParcourirConfig;
 
     //Partie sauvegarde historique
     @FXML
@@ -248,6 +249,15 @@ public class Controller {
         }
     }
 
+    public void parcourirConfig(){
+        DirectoryChooser browser = new DirectoryChooser();
+        browser.setTitle("Sélectionner le nouveau répertoire.");
+        simi = browser.showDialog(this.primaryStage);
+        if(simi != null && simi.isDirectory()){
+            TextFieldConfigPath.setText(simi.getAbsolutePath());
+        }
+    }
+
     public void clear2(){
         RadioTexte.setDisable(false);
         RadioImage.setDisable(false);
@@ -256,7 +266,6 @@ public class Controller {
         simi = null;
         ObservableList<String> list = FXCollections.observableArrayList();
         ListResultSimi.setItems(list);
-
     }
 
     public void reloadResultFromHisto(){
@@ -291,6 +300,7 @@ public class Controller {
         if (TextFieldLogin.getText().equals(controlAdmin.get_password())) {
             TextFieldLogin.setVisible(false);
             AnchorParam.setVisible(true);
+            setCurrentConfig();
         }else{
             TextFieldLogin.setVisible(true);
             AnchorParam.setVisible(false);
@@ -709,6 +719,23 @@ public class Controller {
         }
     }
 
+    public void setCurrentConfig(){
+        String s = controlAdmin.get_settings_texte();
+        String[] tab = s.split(" ");
+        TextFieldConfigTexteLon.setText(tab[0]);
+        TextFieldConfigTexteOcc.setText(tab[1]);
+        TextFieldConfigTexteSave.setText(tab[2]);
+        String i = controlAdmin.get_settings_image();
+        String[] tab2 = i.split(" ");
+        TextFieldConfigImageBPF.setText(tab2[0]);
+        TextFieldConfigImageSeuil.setText(tab2[1]);
+        String n = controlAdmin.get_settings_sound();
+        String[] tab3 = n.split(" ");
+        TextFieldConfigSonSample.setText(tab3[0]);
+        TextFieldConfigSonInter.setText(tab3[1]);
+        TextFieldConfigPath.setText(controlAdmin.get_path());
+    }
+
     public void configurer() {
         String textLon = TextFieldConfigTexteLon.getText();
         String textOcc = TextFieldConfigTexteOcc.getText();
@@ -779,6 +806,7 @@ public class Controller {
         TextFieldConfigSonSample.clear();
         TextFieldConfigMdp.clear();
         TextFieldConfigPath.clear();
+        setCurrentConfig();
     }
 
     public void closeConfigDialog(){

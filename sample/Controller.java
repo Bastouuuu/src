@@ -785,6 +785,10 @@ public class Controller {
         ErrorConfiguration.setVisible(false);
     }
 
+    /**Méthode permettant de sauvegarder l'historique de recherche. 
+     * Elle est appelée lorsque l'utilisateur clique sur le bouton Sauvegarder de l'onglet Résultats. 
+     * @author omar Hilmi
+     */
     public void saveHisto() {
         boundSauv.recupHisto();
         sauvegarderPressed = true;
@@ -822,6 +826,10 @@ public class Controller {
         afficheHisto();
     }
 
+    
+    /**Passage du mode clair au mode sombre et vice-versa lors de la sélection de la CheckBox checkBoxDarkMode.
+     * @author Omar Hilmi
+     */
     public void setDarkMode() {
         if(checkBoxDarkMode.isSelected()) {
             Layout.setStyle("-fx-base:black");

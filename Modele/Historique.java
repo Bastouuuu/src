@@ -12,6 +12,11 @@ import java.util.Map;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+/** Singleton contenant la HashMap (qui contient les couples requête/résultats) et les méthodes pour l'historique.
+ * @author Omar Hilmi
+ *
+ */
+
 public class Historique {
 	
 	
@@ -31,7 +36,12 @@ public class Historique {
 		
 		return HistoriqueHolder.instance ; 
 	}
-
+	
+	/**
+    Ajouter un couple requête/résultats dans la HashMap.
+    @param liste La requête en chaîne de caractères.
+    @param tree Les résultats de la requête en TreeSet.
+	 */
 	public void ajoutHistorique(String liste, TreeSet<Resultat<String, Float>> tree) {
 		
 		if(!tree.isEmpty()) {
@@ -43,6 +53,12 @@ public class Historique {
 		}
 	}
 
+
+	/**Convertit la HashMap contenant les couples requête/résultats en une chaîne de caractère.
+	 * @param map La HashMap contenant les couples requête/résultats. 
+	 * @return Une chaîne de caractères contenant tous les résultats selon un certain formatage.
+	 * @author Bastien Corrge
+	 */
 	public static <K, V> String mapToString(Map<K, V> map) {
 		return map.entrySet()
 				.stream()
@@ -53,7 +69,11 @@ public class Historique {
 				.collect(Collectors.joining("; ", "{", "}"));
 	}
 
-	
+
+	/**
+	 * Ecrit dans le fichier historique.txt l'ensemble de la HashMap convertie en String dans le but de sauvegarder l'historique.
+	 * @author Omar Hilmi
+	 */
 	public void ecrireHistoDansFichier() {
 
 		
@@ -73,6 +93,10 @@ public class Historique {
 		
 	}
 	
+	/**
+	 Lit dans le fichier historique.txt l'ensemble de l'historique et le stocke dans la HashMap.
+	 @author Omar Hilmi 
+	 */
 	public void recupHisto() {
 
 	    String line="";
@@ -117,6 +141,10 @@ public class Historique {
 	    
 	}
 	
+	/**
+	 Vide la HashMap contenant l'historique et vide le fichier historique.txt.
+	 @author Omar Hilmi
+	 */
 	public void supprimerHisto() {
 		hashReqRes.clear();
 		try {
@@ -131,6 +159,11 @@ public class Historique {
 		
 	}
 	
+	/**
+	 * Supprime un seul couple requête/resultats identifié par sa clef.
+	 * @param clef est la requête du couple à supprimer. 
+	 * @author Omar Hilmi
+	 */
 	public void removeUneReq(String clef) {
 		hashReqRes.remove(clef);
 	}

@@ -6,6 +6,10 @@ import java.util.TreeSet;
 import Controleur.ControlleurSauvegardeHistorique;
 import Modele.Resultat;
 
+/**Boundary du cas Sauvegarde Historique permettant d'ajouter dans l'historique, de supprimer l'ensemble de l'historique et de récupérer l'historique.
+ * @author Omar Hilmi
+ *
+ */
 public class BoundarySauvegardeHistorique {
 	
 	ControlleurSauvegardeHistorique controlleurSauvegardeHistorique;

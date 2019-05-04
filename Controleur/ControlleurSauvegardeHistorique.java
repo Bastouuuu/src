@@ -5,6 +5,10 @@ import java.util.TreeSet;
 import Modele.Historique;
 import Modele.Resultat;
 
+/**Controleur du cas Sauvegarde Historique permettant d'ajouter dans l'historique, de supprimer l'ensemble de l'historique et de récupérer l'historique.
+ * @author Omar Hilmi
+ *
+ */
 public class ControlleurSauvegardeHistorique {
 	
 	

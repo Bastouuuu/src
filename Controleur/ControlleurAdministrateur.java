@@ -51,7 +51,17 @@ public class ControlleurAdministrateur {
 		}
 	}
 
+	public String get_settings_texte(){
+		return commun.get_config_texte();
+	}
 
+	public String get_settings_image(){
+		return commun.get_config_image();
+	}
+
+	public String get_settings_sound(){
+		return commun.get_config_son();
+	}
 
 	public void edit_settings_son(int sample, int inter) {
 		boolean configvalide = false;
